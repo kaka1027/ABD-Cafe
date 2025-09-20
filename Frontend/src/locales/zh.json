@@ -1,0 +1,87 @@
+{
+  "welcome": "欢迎来到 ABD Cafe",
+  "nav": {
+    "home": "首页",
+    "login": "登录",
+    "order": "点餐",
+    "admin": "管理"
+  },
+  "home": {
+    "orderNow": "立即点餐",
+    "loginTitle": "登录",
+    "loginDesc": "登录您的账户",
+    "adminTitle": "用户管理",
+    "adminDesc": "管理系统用户（仅管理员）"
+  },
+  "order": {
+    "title": "咖啡厅点单",
+    "currentUser": "当前用户",
+    "remainingQuota": "剩余额度",
+    "cart": "购物车",
+    "total": "总计",
+    "items": "{count} 个商品",
+    "itemCount": "个商品",
+    "submit": "提交订单",
+    "submitting": "提交中...",
+    "checkout": "结账",
+    "emptyCart": "购物车是空的",
+    "emptyCartTip": "选择您喜欢的饮品开始点单吧！",
+    "menuTitle": "饮品菜单",
+    "menuDesc": "选择您喜欢的饮品",
+    "orderSuccess": "订单提交成功！",
+    "orderNumber": "您的订单已提交，订单号为 #{number}",
+    "continueOrder": "继续点单",
+    "insufficientBalance": "余额不足，还需要 ¥{amount}",
+    "temperature": {
+      "title": "温度选择",
+      "hot": "热饮",
+      "warm": "温饮",
+      "cold": "冰饮"
+    },
+    "categories": {
+      "all": "全部",
+      "coffee": "咖啡",
+      "tea": "茶饮",
+      "juice": "果汁"
+    },
+    "drinks": {
+      "americano": {
+        "name": "美式咖啡",
+        "desc": "经典美式咖啡，香醇浓郁"
+      },
+      "latte": {
+        "name": "拿铁咖啡",
+        "desc": "香滑拿铁，奶香与咖啡的完美融合"
+      },
+      "cappuccino": {
+        "name": "卡布奇诺",
+        "desc": "意式经典，浓郁咖啡配绵密奶泡"
+      },
+      "matchaLatte": {
+        "name": "抹茶拿铁",
+        "desc": "清香抹茶与丝滑牛奶的完美结合"
+      },
+      "honeyLemonTea": {
+        "name": "柠檬蜂蜜茶",
+        "desc": "清新柠檬配天然蜂蜜，酸甜可口"
+      },
+      "mangoJuice": {
+        "name": "芒果汁",
+        "desc": "新鲜芒果现榨，浓郁果香"
+      }
+    }
+  },
+  "notFound": {
+    "title": "404 - 页面未找到",
+    "message": "抱歉，您访问的页面不存在",
+    "backHome": "返回首页"
+  },
+  "admin": {
+    "title": "管理面板",
+    "userManagement": "用户管理"
+  },
+  "language": {
+    "zh": "中文",
+    "en": "English"
+  }
+}

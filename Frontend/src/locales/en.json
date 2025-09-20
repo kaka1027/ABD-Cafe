@@ -1,0 +1,87 @@
+{
+  "welcome": "Welcome to ABD Cafe",
+  "nav": {
+    "home": "Home",
+    "login": "Login",
+    "order": "Order",
+    "admin": "Admin"
+  },
+  "home": {
+    "orderNow": "Order Now",
+    "loginTitle": "Login",
+    "loginDesc": "Access your account",
+    "adminTitle": "User Management",
+    "adminDesc": "Manage system users (Admin only)"
+  },
+  "order": {
+    "title": "Cafe Order",
+    "currentUser": "Current User",
+    "remainingQuota": "Remaining Balance",
+    "cart": "Cart",
+    "total": "Total",
+    "items": "{count} Items",
+    "itemCount": "items",
+    "submit": "Submit Order",
+    "submitting": "Submitting...",
+    "checkout": "Checkout",
+    "emptyCart": "Your cart is empty",
+    "emptyCartTip": "Select your favorite drinks to start ordering!",
+    "menuTitle": "Drinks Menu",
+    "menuDesc": "Choose your favorite drinks",
+    "orderSuccess": "Order Submitted Successfully!",
+    "orderNumber": "Your order has been submitted, order number: #{number}",
+    "continueOrder": "Continue Ordering",
+    "insufficientBalance": "Insufficient balance, need ¥{amount} more",
+    "temperature": {
+      "title": "Temperature",
+      "hot": "Hot",
+      "warm": "Warm",
+      "cold": "Cold"
+    },
+    "categories": {
+      "all": "All",
+      "coffee": "Coffee",
+      "tea": "Tea",
+      "juice": "Juice"
+    },
+    "drinks": {
+      "americano": {
+        "name": "Americano",
+        "desc": "Classic American coffee, rich and aromatic"
+      },
+      "latte": {
+        "name": "Cafe Latte",
+        "desc": "Smooth latte, perfect blend of milk and coffee"
+      },
+      "cappuccino": {
+        "name": "Cappuccino",
+        "desc": "Italian classic, rich coffee with creamy foam"
+      },
+      "matchaLatte": {
+        "name": "Matcha Latte",
+        "desc": "Fresh matcha perfectly combined with silky milk"
+      },
+      "honeyLemonTea": {
+        "name": "Honey Lemon Tea",
+        "desc": "Fresh lemon with natural honey, sweet and sour"
+      },
+      "mangoJuice": {
+        "name": "Mango Juice",
+        "desc": "Freshly squeezed mango, rich fruit flavor"
+      }
+    }
+  },
+  "notFound": {
+    "title": "404 - Page Not Found",
+    "message": "Sorry, the page you are looking for does not exist",
+    "backHome": "Back to Home"
+  },
+  "admin": {
+    "title": "Admin Panel",
+    "userManagement": "User Management"
+  },
+  "language": {
+    "zh": "中文",
+    "en": "English"
+  }
+}
