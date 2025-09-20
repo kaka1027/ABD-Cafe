@@ -1,221 +1,3 @@
-
-<script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
-import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
-
-interface Drink {
-  id: number
-  name: string
-  price: number
-  description: string
-  category: string
-  image: string
-  hasTemperature: boolean
-}
-
-interface CartItem extends Drink {
-  quantity: number
-  temperature?: string
-}
-
-interface User {
-  username: string
-  remainingQuota: number
-}
-
-// 用户信息
-const currentUser = reactive<User>({
-  username: 'user1',
-  remainingQuota: 85.50
-})
-
-// 状态
-const selectedCategory = ref(t('order.categories.all'))
-const isSubmitting = ref(false)
-const showSuccessModal = ref(false)
-const lastOrderId = ref('')
-
-// 温度选项
-const temperatureOptions = computed(() => [
-  t('order.temperature.hot'),
-  t('order.temperature.warm'),
-  t('order.temperature.cold')
-])
-
-// 饮品数据
-const drinks = computed<Drink[]>(() => [
-  {
-    id: 1,
-    name: t('order.drinks.americano.name'),
-    price: 25.00,
-    description: t('order.drinks.americano.desc'),
-    category: t('order.categories.coffee'),
-    image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300',
-    hasTemperature: true
-  },
-  {
-    id: 2,
-    name: t('order.drinks.latte.name'),
-    price: 32.00,
-    description: t('order.drinks.latte.desc'),
-    category: t('order.categories.coffee'),
-    image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=300',
-    hasTemperature: true
-  },
-  {
-    id: 3,
-    name: t('order.drinks.cappuccino.name'),
-    price: 30.00,
-    description: t('order.drinks.cappuccino.desc'),
-    category: t('order.categories.coffee'),
-    image: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=300',
-    hasTemperature: true
-  },
-  {
-    id: 4,
-    name: t('order.drinks.matchaLatte.name'),
-    price: 35.00,
-    description: t('order.drinks.matchaLatte.desc'),
-    category: t('order.categories.tea'),
-    image: 'https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=300',
-    hasTemperature: true
-  },
-  {
-    id: 5,
-    name: t('order.drinks.honeyLemonTea.name'),
-    price: 28.00,
-    description: t('order.drinks.honeyLemonTea.desc'),
-    category: t('order.categories.tea'),
-    image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=300',
-    hasTemperature: false
-  },
-  {
-    id: 6,
-    name: t('order.drinks.mangoJuice.name'),
-    price: 22.00,
-    description: t('order.drinks.mangoJuice.desc'),
-    category: t('order.categories.juice'),
-    image: 'https://images.unsplash.com/photo-1553979459-d2229ba7433a?w=300',
-    hasTemperature: false
-  }
-])
-
-// 分类
-const categories = computed(() => {
-  const cats = [t('order.categories.all'), ...new Set(drinks.value.map(d => d.category))]
-  return cats
-})
-
-// 过滤后的饮品
-const filteredDrinks = computed(() => {
-  if (selectedCategory.value === t('order.categories.all')) {
-    return drinks.value
-  }
-  return drinks.value.filter(d => d.category === selectedCategory.value)
-})
-
-// 购物车
-const cartItems = ref<CartItem[]>([])
-
-// 饮品数量和温度选择
-const drinkQuantities = reactive<Record<number, number>>({})
-const drinkTemperatures = reactive<Record<number, string>>({})
-
-const getDrinkQuantity = (drinkId: number) => drinkQuantities[drinkId] || 0
-const getDrinkTemperature = (drinkId: number) => drinkTemperatures[drinkId] || ''
-
-const setDrinkTemperature = (drinkId: number, temperature: string) => {
-  drinkTemperatures[drinkId] = temperature
-}
-
-const increaseQuantity = (drinkId: number) => {
-  drinkQuantities[drinkId] = (drinkQuantities[drinkId] || 0) + 1
-}
-
-const decreaseQuantity = (drinkId: number) => {
-  if (drinkQuantities[drinkId] > 0) {
-    drinkQuantities[drinkId]--
-  }
-}
-
-const addToCart = (drink: Drink) => {
-  const quantity = getDrinkQuantity(drink.id)
-  const temperature = drink.hasTemperature ? getDrinkTemperature(drink.id) : undefined
-  
-  if (quantity <= 0) return
-  if (drink.hasTemperature && !temperature) return
-
-  const existingItemIndex = cartItems.value.findIndex(
-    item => item.id === drink.id && item.temperature === temperature
-  )
-
-  if (existingItemIndex >= 0) {
-    cartItems.value[existingItemIndex].quantity += quantity
-  } else {
-    cartItems.value.push({
-      ...drink,
-      quantity,
-      temperature
-    })
-  }
-
-  // 重置选择
-  drinkQuantities[drink.id] = 0
-  if (drink.hasTemperature) {
-    delete drinkTemperatures[drink.id]
-  }
-}
-
-const updateCartItemQuantity = (item: CartItem, newQuantity: number) => {
-  if (newQuantity <= 0) {
-    const index = cartItems.value.indexOf(item)
-    cartItems.value.splice(index, 1)
-  } else {
-    item.quantity = newQuantity
-  }
-}
-
-// 总金额
-const totalAmount = computed(() => {
-  return cartItems.value.reduce((total, item) => total + item.price * item.quantity, 0)
-})
-
-const submitOrder = async () => {
-  if (cartItems.value.length === 0 || totalAmount.value > currentUser.remainingQuota) {
-    return
-  }
-
-  isSubmitting.value = true
-
-  try {
-    // TODO: 调用实际的订单提交 API
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    // 更新用户余额
-    currentUser.remainingQuota -= totalAmount.value
-    
-    // 生成订单号
-    lastOrderId.value = Date.now().toString()
-    
-    // 清空购物车
-    cartItems.value = []
-    
-    // 显示成功提示
-    showSuccessModal.value = true
-  } catch (error) {
-    alert('订单提交失败，请重试')
-  } finally {
-    isSubmitting.value = false
-  }
-}
-
-const closeSuccessModal = () => {
-  showSuccessModal.value = false
-}
-</script>
-
 <template>
   <div class="min-h-screen bg-gray-50">
     <!-- 头部 -->
@@ -476,6 +258,7 @@ const closeSuccessModal = () => {
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -509,10 +292,17 @@ const currentUser = reactive<User>({
 })
 
 // 状态
-const selectedCategory = ref('全部')
+const selectedCategory = ref(t('order.categories.all'))
 const isSubmitting = ref(false)
 const showSuccessModal = ref(false)
 const lastOrderId = ref('')
+
+// 温度选项
+const temperatureOptions = computed(() => [
+  t('order.temperature.hot'),
+  t('order.temperature.warm'),
+  t('order.temperature.cold')
+])
 
 // 饮品数据
 const drinks = computed<Drink[]>(() => [
@@ -574,13 +364,13 @@ const drinks = computed<Drink[]>(() => [
 
 // 分类
 const categories = computed(() => {
-  const cats = ['全部', ...new Set(drinks.value.map(d => d.category))]
+  const cats = [t('order.categories.all'), ...new Set(drinks.value.map(d => d.category))]
   return cats
 })
 
 // 过滤后的饮品
 const filteredDrinks = computed(() => {
-  if (selectedCategory.value === '全部') {
+  if (selectedCategory.value === t('order.categories.all')) {
     return drinks.value
   }
   return drinks.value.filter(d => d.category === selectedCategory.value)
