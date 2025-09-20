@@ -13,19 +13,29 @@
             </div>
           </div>
           <div class="flex items-center space-x-4">
-            <div class="text-right">
-              <p class="text-sm text-gray-500">{{ t('order.currentUser') }}</p>
-              <p class="font-medium text-gray-900">{{ currentUser.username }}</p>
+            <div class="flex-1 flex items-center space-x-4">
+              <div class="text-right">
+                <p class="text-sm text-gray-500">{{ t('order.currentUser') }}</p>
+                <p class="font-medium text-gray-900">{{ currentUser.username }}</p>
+              </div>
+              <div class="text-right">
+                <p class="text-sm text-gray-500">{{ t('order.remainingQuota') }}</p>
+                <p class="font-medium" :class="{
+                  'text-green-600': currentUser.remainingQuota > 50,
+                  'text-yellow-600': currentUser.remainingQuota <= 50 && currentUser.remainingQuota > 20,
+                  'text-red-600': currentUser.remainingQuota <= 20
+                }">
+                  ¥{{ currentUser.remainingQuota.toFixed(2) }}
+                </p>
+              </div>
             </div>
-            <div class="text-right">
-              <p class="text-sm text-gray-500">{{ t('order.remainingQuota') }}</p>
-              <p class="font-medium" :class="{
-                'text-green-600': currentUser.remainingQuota > 50,
-                'text-yellow-600': currentUser.remainingQuota <= 50 && currentUser.remainingQuota > 20,
-                'text-red-600': currentUser.remainingQuota <= 20
-              }">
-                ¥{{ currentUser.remainingQuota.toFixed(2) }}
-              </p>
+            <div v-if="currentUser.role === 'admin'" class="flex-shrink-0">
+              <router-link
+                to="/admin/users"
+                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                {{ t('admin.userManagement') }}
+              </router-link>
             </div>
           </div>
         </div>
@@ -283,12 +293,14 @@ interface CartItem extends Drink {
 interface User {
   username: string
   remainingQuota: number
+  role: 'admin' | 'user'
 }
 
 // 用户信息
 const currentUser = reactive<User>({
   username: 'user1',
-  remainingQuota: 85.50
+  remainingQuota: 85.50,
+  role: 'user'
 })
 
 // 状态

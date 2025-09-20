@@ -80,6 +80,46 @@
     "title": "Admin Panel",
     "userManagement": "User Management"
   },
+  "userManage": {
+    "title": "User Management",
+    "description": "Manage all user accounts in the system, including creating, editing, freezing and resetting passwords.",
+    "createUser": "New User",
+    "searchPlaceholder": "Search username or email...",
+    "status": {
+      "all": "All Status",
+      "active": "Active",
+      "inactive": "Frozen"
+    },
+    "role": {
+      "all": "All Roles",
+      "admin": "Administrator",
+      "user": "Regular User"
+    },
+    "table": {
+      "userInfo": "User Info",
+      "role": "Role",
+      "status": "Status",
+      "quota": "Monthly Quota",
+      "lastLogin": "Last Login",
+      "actions": "Actions"
+    },
+    "modal": {
+      "createTitle": "Create User",
+      "editTitle": "Edit User",
+      "username": "Username",
+      "email": "Email",
+      "initialPassword": "Initial Password",
+      "role": "Role",
+      "quota": "Monthly Quota",
+      "save": "Save",
+      "create": "Create",
+      "cancel": "Cancel"
+    },
+    "confirmReset": "Are you sure you want to reset the password for user {username}?",
+    "resetSuccess": "Password has been reset successfully. New password has been sent to user's email",
+    "confirmFreeze": "Are you sure you want to freeze user {username}?",
+    "confirmUnfreeze": "Are you sure you want to unfreeze user {username}?"
+  },
   "language": {
     "zh": "中文",
     "en": "English"

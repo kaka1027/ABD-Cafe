@@ -144,8 +144,8 @@ const handleLogin = async () => {
     // 模拟登录请求
     await new Promise(resolve => setTimeout(resolve, 1000))
     
-    // 模拟登录成功，跳转到首页
-    router.push('/')
+    // 模拟登录成功，跳转到点单页面
+    router.push('/order')
   } catch (error) {
     errorMessage.value = '登录失败，请检查用户名和密码'
   } finally {

@@ -4,9 +4,9 @@
       <!-- 页面标题 -->
       <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
-          <h1 class="text-2xl font-bold text-gray-900">用户管理</h1>
+          <h1 class="text-2xl font-bold text-gray-900">{{ t('userManage.title') }}</h1>
           <p class="mt-2 text-sm text-gray-700">
-            管理系统中的所有用户账户，包括创建、编辑、冻结和重置密码等操作。
+            {{ t('userManage.description') }}
           </p>
         </div>
         <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
@@ -18,7 +18,7 @@
             <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
-            新建用户
+            {{ t('userManage.createUser') }}
           </button>
         </div>
       </div>
@@ -29,7 +29,7 @@
           <input
             type="text"
             v-model="searchQuery"
-            placeholder="搜索用户名或邮箱..."
+            :placeholder="t('userManage.searchPlaceholder')"
             class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           />
         </div>
@@ -37,17 +37,17 @@
           v-model="statusFilter"
           class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
         >
-          <option value="">所有状态</option>
-          <option value="active">启用</option>
-          <option value="inactive">冻结</option>
+          <option value="">{{ t('userManage.status.all') }}</option>
+          <option value="active">{{ t('userManage.status.active') }}</option>
+          <option value="inactive">{{ t('userManage.status.inactive') }}</option>
         </select>
         <select
           v-model="roleFilter"
           class="rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
         >
-          <option value="">所有角色</option>
-          <option value="admin">管理员</option>
-          <option value="user">普通用户</option>
+          <option value="">{{ t('userManage.role.all') }}</option>
+          <option value="admin">{{ t('userManage.role.admin') }}</option>
+          <option value="user">{{ t('userManage.role.user') }}</option>
         </select>
       </div>
 
@@ -60,22 +60,22 @@
                 <thead class="bg-gray-50">
                   <tr>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      用户信息
+                      {{ t('userManage.table.userInfo') }}
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      角色
+                      {{ t('userManage.table.role') }}
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      状态
+                      {{ t('userManage.table.status') }}
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      当月额度
+                      {{ t('userManage.table.quota') }}
                     </th>
                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      最后登录
+                      {{ t('userManage.table.lastLogin') }}
                     </th>
                     <th scope="col" class="relative px-6 py-3">
-                      <span class="sr-only">操作</span>
+                      <span class="sr-only">{{ t('userManage.table.actions') }}</span>
                     </th>
                   </tr>
                 </thead>
@@ -101,7 +101,7 @@
                         'bg-purple-100 text-purple-800': user.role === 'admin',
                         'bg-green-100 text-green-800': user.role === 'user'
                       }" class="inline-flex px-2 py-1 text-xs font-semibold rounded-full">
-                        {{ user.role === 'admin' ? '管理员' : '普通用户' }}
+                        {{ t(`userManage.role.${user.role}`) }}
                       </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
@@ -109,7 +109,7 @@
                         'bg-green-100 text-green-800': user.status === 'active',
                         'bg-red-100 text-red-800': user.status === 'inactive'
                       }" class="inline-flex px-2 py-1 text-xs font-semibold rounded-full">
-                        {{ user.status === 'active' ? '启用' : '冻结' }}
+                        {{ t(`userManage.status.${user.status}`) }}
                       </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -174,11 +174,11 @@
                 <div class="sm:flex sm:items-start">
                   <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                     <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                      {{ editingUser ? '编辑用户' : '新建用户' }}
+                      {{ t(editingUser ? 'userManage.modal.editTitle' : 'userManage.modal.createTitle') }}
                     </h3>
                     <div class="mt-4 space-y-4">
                       <div>
-                        <label for="username" class="block text-sm font-medium text-gray-700">用户名</label>
+                        <label for="username" class="block text-sm font-medium text-gray-700">{{ t('userManage.modal.username') }}</label>
                         <input
                           type="text"
                           id="username"
@@ -189,7 +189,7 @@
                         />
                       </div>
                       <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">邮箱</label>
+                        <label for="email" class="block text-sm font-medium text-gray-700">{{ t('userManage.modal.email') }}</label>
                         <input
                           type="email"
                           id="email"
@@ -199,7 +199,7 @@
                         />
                       </div>
                       <div v-if="!editingUser">
-                        <label for="password" class="block text-sm font-medium text-gray-700">初始密码</label>
+                        <label for="password" class="block text-sm font-medium text-gray-700">{{ t('userManage.modal.initialPassword') }}</label>
                         <input
                           type="password"
                           id="password"
@@ -209,18 +209,18 @@
                         />
                       </div>
                       <div>
-                        <label for="role" class="block text-sm font-medium text-gray-700">角色</label>
+                        <label for="role" class="block text-sm font-medium text-gray-700">{{ t('userManage.modal.role') }}</label>
                         <select
                           id="role"
                           v-model="userForm.role"
                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         >
-                          <option value="user">普通用户</option>
-                          <option value="admin">管理员</option>
+                          <option value="user">{{ t('userManage.role.user') }}</option>
+                          <option value="admin">{{ t('userManage.role.admin') }}</option>
                         </select>
                       </div>
                       <div>
-                        <label for="quota" class="block text-sm font-medium text-gray-700">当月额度</label>
+                        <label for="quota" class="block text-sm font-medium text-gray-700">{{ t('userManage.modal.quota') }}</label>
                         <input
                           type="number"
                           id="quota"
@@ -240,14 +240,14 @@
                   type="submit"
                   class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm"
                 >
-                  {{ editingUser ? '保存' : '创建' }}
+                  {{ t(editingUser ? 'userManage.modal.save' : 'userManage.modal.create') }}
                 </button>
                 <button
                   type="button"
                   @click="closeUserModal"
                   class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                 >
-                  取消
+                  {{ t('userManage.modal.cancel') }}
                 </button>
               </div>
             </form>
@@ -260,6 +260,9 @@
 
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 interface User {
   id: number
@@ -388,15 +391,15 @@ const saveUser = () => {
 }
 
 const resetPassword = (user: User) => {
-  if (confirm(`确定要重置用户 ${user.username} 的密码吗？`)) {
+  if (confirm(t('userManage.confirmReset', { username: user.username }))) {
     // TODO: 调用重置密码 API
-    alert('密码重置成功，新密码已发送到用户邮箱')
+    alert(t('userManage.resetSuccess'))
   }
 }
 
 const toggleUserStatus = (user: User) => {
-  const action = user.status === 'active' ? '冻结' : '启用'
-  if (confirm(`确定要${action}用户 ${user.username} 吗？`)) {
+  const confirmKey = user.status === 'active' ? 'confirmFreeze' : 'confirmUnfreeze'
+  if (confirm(t(`userManage.${confirmKey}`, { username: user.username }))) {
     user.status = user.status === 'active' ? 'inactive' : 'active'
   }
 }
