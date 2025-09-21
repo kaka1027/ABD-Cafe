@@ -123,5 +123,25 @@
   "language": {
     "zh": "中文",
     "en": "English"
+  },
+  "login": {
+    "title": "☕ Cafe Order System",
+    "subtitle": "Please login to your account",
+    "username": "Username",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "loginButton": "Login",
+    "loggingIn": "Logging in...",
+    "errorRequired": "Please enter username and password",
+    "errorFailed": "Login failed, please check your username and password"
+  },
+  "error": {
+    "orderSubmitFailed": "Order submission failed, please try again"
+  },
+  "actions": {
+    "edit": "Edit user",
+    "resetPassword": "Reset password",
+    "freeze": "Freeze user",
+    "unfreeze": "Unfreeze user"
   }
 }

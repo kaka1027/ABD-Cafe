@@ -123,7 +123,7 @@
                         <button
                           @click="editUser(user)"
                           class="text-indigo-600 hover:text-indigo-900 p-1 rounded-md hover:bg-indigo-50"
-                          title="编辑用户"
+                          :title="t('actions.edit')"
                         >
                           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -132,7 +132,7 @@
                         <button
                           @click="resetPassword(user)"
                           class="text-yellow-600 hover:text-yellow-900 p-1 rounded-md hover:bg-yellow-50"
-                          title="重置密码"
+                          :title="t('actions.resetPassword')"
                         >
                           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
@@ -145,7 +145,7 @@
                             'text-green-600 hover:text-green-900 hover:bg-green-50': user.status === 'inactive'
                           }"
                           class="p-1 rounded-md"
-                          :title="user.status === 'active' ? '冻结用户' : '启用用户'"
+                          :title="user.status === 'active' ? t('actions.freeze') : t('actions.unfreeze')"
                         >
                           <svg v-if="user.status === 'active'" class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L5.636 5.636" />

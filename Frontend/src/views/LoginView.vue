@@ -8,16 +8,16 @@
           </svg>
         </div>
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          ☕ 咖啡厅点单系统
+          {{ t('login.title') }}
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600">
-          请登录您的账户
+          {{ t('login.subtitle') }}
         </p>
       </div>
       <form class="mt-8 space-y-6" @submit.prevent="handleLogin">
         <div class="rounded-md shadow-sm -space-y-px">
           <div>
-            <label for="username" class="sr-only">用户名</label>
+            <label for="username" class="sr-only">{{ t('login.username') }}</label>
             <input
               id="username"
               name="username"
@@ -25,11 +25,11 @@
               required
               v-model="loginForm.username"
               class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              placeholder="用户名"
+              :placeholder="t('login.username')"
             />
           </div>
           <div>
-            <label for="password" class="sr-only">密码</label>
+            <label for="password" class="sr-only">{{ t('login.password') }}</label>
             <input
               id="password"
               name="password"
@@ -37,7 +37,7 @@
               required
               v-model="loginForm.password"
               class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              placeholder="密码"
+              :placeholder="t('login.password')"
             />
           </div>
         </div>
@@ -52,7 +52,7 @@
               class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
             />
             <label for="remember-me" class="ml-2 block text-sm text-gray-900">
-              记住我
+              {{ t('login.rememberMe') }}
             </label>
           </div>
         </div>
@@ -81,7 +81,7 @@
                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
             </span>
-            {{ isLoading ? '登录中...' : '登录' }}
+            {{ isLoading ? t('login.loggingIn') : t('login.loginButton') }}
           </button>
         </div>
 
@@ -107,8 +107,10 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
+const { t } = useI18n()
 
 const isLoading = ref(false)
 const errorMessage = ref('')
@@ -121,7 +123,7 @@ const loginForm = reactive({
 
 const handleLogin = async () => {
   if (!loginForm.username || !loginForm.password) {
-    errorMessage.value = '请输入用户名和密码'
+    errorMessage.value = t('login.errorRequired')
     return
   }
 
@@ -147,7 +149,7 @@ const handleLogin = async () => {
     // 模拟登录成功，跳转到点单页面
     router.push('/order')
   } catch (error) {
-    errorMessage.value = '登录失败，请检查用户名和密码'
+    errorMessage.value = t('login.errorFailed')
   } finally {
     isLoading.value = false
   }

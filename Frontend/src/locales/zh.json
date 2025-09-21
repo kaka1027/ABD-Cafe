@@ -120,46 +120,6 @@
     "confirmFreeze": "确定要冻结用户 {username} 吗？",
     "confirmUnfreeze": "确定要启用用户 {username} 吗？"
   },
-  "userManage": {
-    "title": "用户管理",
-    "description": "管理系统中的所有用户账户，包括创建、编辑、冻结和重置密码等操作。",
-    "createUser": "新建用户",
-    "searchPlaceholder": "搜索用户名或邮箱...",
-    "status": {
-      "all": "所有状态",
-      "active": "启用",
-      "inactive": "冻结"
-    },
-    "role": {
-      "all": "所有角色",
-      "admin": "管理员",
-      "user": "普通用户"
-    },
-    "table": {
-      "userInfo": "用户信息",
-      "role": "角色",
-      "status": "状态",
-      "quota": "当月额度",
-      "lastLogin": "最后登录",
-      "actions": "操作"
-    },
-    "modal": {
-      "createTitle": "新建用户",
-      "editTitle": "编辑用户",
-      "username": "用户名",
-      "email": "邮箱",
-      "initialPassword": "初始密码",
-      "role": "角色",
-      "quota": "当月额度",
-      "save": "保存",
-      "create": "创建",
-      "cancel": "取消"
-    },
-    "confirmReset": "确定要重置用户 {username} 的密码吗？",
-    "resetSuccess": "密码重置成功，新密码已发送到用户邮箱",
-    "confirmFreeze": "确定要冻结用户 {username} 吗？",
-    "confirmUnfreeze": "确定要启用用户 {username} 吗？"
-  },
   "language": {
     "zh": "中文",
     "en": "English"

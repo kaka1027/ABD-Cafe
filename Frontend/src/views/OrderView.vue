@@ -477,7 +477,7 @@ const submitOrder = async () => {
     // 显示成功提示
     showSuccessModal.value = true
   } catch (error) {
-    alert('订单提交失败，请重试')
+    alert(t('error.orderSubmitFailed'))
   } finally {
     isSubmitting.value = false
   }
