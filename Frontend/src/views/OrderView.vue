@@ -65,7 +65,7 @@
                   }"
                   class="px-4 py-2 rounded-full text-sm font-medium transition-colors"
                 >
-                  {{ category }}
+                  {{ category === 'all' ? t('all') : t(`${category}`) }}
                 </button>
               </div>
             </div>
@@ -304,7 +304,7 @@ const currentUser = reactive<User>({
 })
 
 // 状态
-const selectedCategory = ref(t('order.categories.all'))
+const selectedCategory = ref('all')
 const isSubmitting = ref(false)
 const showSuccessModal = ref(false)
 const lastOrderId = ref('')
@@ -376,13 +376,13 @@ const drinks = computed<Drink[]>(() => [
 
 // 分类
 const categories = computed(() => {
-  const cats = [t('order.categories.all'), ...new Set(drinks.value.map(d => d.category))]
+  const cats = ['all', ...new Set(drinks.value.map(d => d.category))]
   return cats
 })
 
 // 过滤后的饮品
 const filteredDrinks = computed(() => {
-  if (selectedCategory.value === t('order.categories.all')) {
+  if (selectedCategory.value === 'all') {
     return drinks.value
   }
   return drinks.value.filter(d => d.category === selectedCategory.value)

@@ -123,5 +123,25 @@
   "language": {
     "zh": "中文",
     "en": "English"
+  },
+  "login": {
+    "title": "☕ 咖啡厅点单系统",
+    "subtitle": "请登录您的账户",
+    "username": "用户名",
+    "password": "密码",
+    "rememberMe": "记住我",
+    "loginButton": "登录",
+    "loggingIn": "登录中...",
+    "errorRequired": "请输入用户名和密码",
+    "errorFailed": "登录失败，请检查用户名和密码"
+  },
+  "error": {
+    "orderSubmitFailed": "订单提交失败，请重试"
+  },
+  "actions": {
+    "edit": "编辑用户",
+    "resetPassword": "重置密码",
+    "freeze": "冻结用户",
+    "unfreeze": "启用用户"
   }
 }
