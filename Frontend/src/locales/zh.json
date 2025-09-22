@@ -17,6 +17,7 @@
     "title": "咖啡厅点单",
     "currentUser": "当前用户",
     "remainingQuota": "剩余额度",
+    "logout": "退出登录",
     "cart": "购物车",
     "total": "总计",
     "items": "{count} 个商品",

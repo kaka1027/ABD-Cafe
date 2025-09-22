@@ -12,7 +12,7 @@
               <h1 class="text-xl font-bold text-gray-900">{{ t('order.title') }}</h1>
             </div>
           </div>
-          <div class="flex items-center space-x-4">
+          <div class="flex items-center space-x-4" v-if="currentUser">
             <div class="flex-1 flex items-center space-x-4">
               <div class="text-right">
                 <p class="text-sm text-gray-500">{{ t('order.currentUser') }}</p>
@@ -29,13 +29,24 @@
                 </p>
               </div>
             </div>
-            <div v-if="currentUser.role === 'admin'" class="flex-shrink-0">
-              <router-link
-                to="/admin/users"
-                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            <div class="flex items-center space-x-2">
+              <div v-if="currentUser.role === 'admin'" class="flex-shrink-0">
+                <router-link
+                  to="/admin/users"
+                  class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  {{ t('admin.userManagement') }}
+                </router-link>
+              </div>
+              <button
+                @click="handleLogout"
+                class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                {{ t('admin.userManagement') }}
-              </router-link>
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                </svg>
+                {{ t('order.logout') }}
+              </button>
             </div>
           </div>
         </div>
@@ -199,7 +210,7 @@
                 </div>
                 
                 <!-- 余额不足提示 -->
-                <div v-if="totalAmount > currentUser.remainingQuota" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
+                <div v-if="currentUser && totalAmount > currentUser.remainingQuota" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
                   <div class="flex">
                     <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
                       <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
@@ -214,7 +225,7 @@
 
                 <button
                   @click="submitOrder"
-                  :disabled="cartItems.length === 0 || totalAmount > currentUser.remainingQuota || isSubmitting"
+                  :disabled="!currentUser || cartItems.length === 0 || (currentUser && totalAmount > currentUser.remainingQuota) || isSubmitting"
                   class="w-full bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                 >
                   {{ isSubmitting ? t('order.submitting') : t('order.submit') }}
@@ -272,8 +283,12 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 
 const { t } = useI18n()
+const router = useRouter()
+const userStore = useUserStore()
 
 interface Drink {
   id: number
@@ -290,17 +305,20 @@ interface CartItem extends Drink {
   temperature?: string
 }
 
-interface User {
-  username: string
-  remainingQuota: number
-  role: 'admin' | 'user'
-}
+// 用户信息 - 使用真实的登录数据
+const currentUser = computed(() => {
+  const user = userStore.user
+  if (!user) {
+    // 如果没有登录，跳转到登录页
+    router.push('/')
+    return null
+  }
 
-// 用户信息
-const currentUser = reactive<User>({
-  username: 'user1',
-  remainingQuota: 85.50,
-  role: 'user'
+  return {
+    username: user.username,
+    remainingQuota: 85.50, // TODO: 从后端获取真实的余额数据
+    role: user.role
+  }
 })
 
 // 状态
@@ -454,8 +472,14 @@ const totalAmount = computed(() => {
   return cartItems.value.reduce((total, item) => total + item.price * item.quantity, 0)
 })
 
+// 登出处理
+const handleLogout = () => {
+  userStore.logout()
+  router.push('/')
+}
+
 const submitOrder = async () => {
-  if (cartItems.value.length === 0 || totalAmount.value > currentUser.remainingQuota) {
+  if (!currentUser.value || cartItems.value.length === 0 || totalAmount.value > currentUser.value.remainingQuota) {
     return
   }
 
@@ -464,16 +488,16 @@ const submitOrder = async () => {
   try {
     // TODO: 调用实际的订单提交 API
     await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    // 更新用户余额
-    currentUser.remainingQuota -= totalAmount.value
-    
+
+    // TODO: 更新用户余额 - 这里应该通过 API 调用来更新，而不是直接修改
+    console.log('订单提交成功，扣除金额:', totalAmount.value)
+
     // 生成订单号
     lastOrderId.value = Date.now().toString()
-    
+
     // 清空购物车
     cartItems.value = []
-    
+
     // 显示成功提示
     showSuccessModal.value = true
   } catch (error) {

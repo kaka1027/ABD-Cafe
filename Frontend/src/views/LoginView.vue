@@ -105,12 +105,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useUserStore } from '../stores/user'
 
 const router = useRouter()
 const { t } = useI18n()
+const userStore = useUserStore()
 
 const isLoading = ref(false)
 const errorMessage = ref('')
@@ -119,6 +121,16 @@ const loginForm = reactive({
   username: '',
   password: '',
   rememberMe: false
+})
+
+onMounted(() => {
+  // 初始化用户状态
+  userStore.initializeAuth()
+
+  // 如果已经登录，直接跳转到点单页面
+  if (userStore.isLoggedIn) {
+    router.push('/order')
+  }
 })
 
 const handleLogin = async () => {
@@ -131,24 +143,32 @@ const handleLogin = async () => {
   errorMessage.value = ''
 
   try {
-    // TODO: 这里需要调用实际的登录 API
-    // const response = await fetch('/api/auth/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     username: loginForm.username,
-    //     password: loginForm.password,
-    //   }),
-    // })
-    
-    // 模拟登录请求
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    // 模拟登录成功，跳转到点单页面
-    router.push('/order')
+    // 调用真实的登录 API
+    const response = await fetch('http://localhost:3001/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: loginForm.username,
+        password: loginForm.password,
+      }),
+    })
+
+    const result = await response.json()
+
+    if (response.ok && result.success) {
+      // 登录成功，保存用户信息和token
+      const { user, token } = result.data
+      userStore.login(user, token)
+
+      // 跳转到点单页面
+      router.push('/order')
+    } else {
+      errorMessage.value = result.message || t('login.errorFailed')
+    }
   } catch (error) {
+    console.error('登录失败:', error)
     errorMessage.value = t('login.errorFailed')
   } finally {
     isLoading.value = false

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//d/Maggie/Github/ABD-Cafe/Backend/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
