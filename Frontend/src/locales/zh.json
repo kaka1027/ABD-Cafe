@@ -1,5 +1,9 @@
 {
   "welcome": "欢迎来到 ABD Cafe",
+  "cafe": {
+    "orderingSystem": "咖啡厅点餐系统",
+    "smartSystem": "智能点餐系统"
+  },
   "nav": {
     "home": "首页",
     "login": "登录",
@@ -18,6 +22,7 @@
     "currentUser": "当前用户",
     "remainingQuota": "剩余额度",
     "logout": "退出登录",
+    "backToOrder": "返回点餐",
     "cart": "购物车",
     "total": "总计",
     "items": "{count} 个商品",
@@ -76,8 +81,9 @@
     }
   },
   "notFound": {
-    "title": "404 - 页面未找到",
+    "title": "页面未找到",
     "message": "抱歉，您访问的页面不存在",
+    "goBack": "返回上一页",
     "backHome": "返回首页"
   },
   "admin": {
@@ -88,6 +94,215 @@
     "productManagement": "商品管理",
     "analytics": "数据分析",
     "settings": "系统设置"
+  },
+  "orderManage": {
+    "title": "订单管理",
+    "description": "查看和管理所有订单，包括处理、完成和统计订单数据。",
+    "stats": {
+      "totalOrders": "总订单数",
+      "pendingOrders": "待处理",
+      "completedOrders": "已完成",
+      "todayRevenue": "今日营业额",
+      "fromYesterday": "较昨日",
+      "ofTotal": "占总数"
+    },
+    "filters": {
+      "title": "筛选条件",
+      "searchPlaceholder": "搜索订单号或用户...",
+      "status": {
+        "all": "所有状态",
+        "pending": "待处理",
+        "processing": "处理中",
+        "completed": "已完成",
+        "cancelled": "已取消"
+      },
+      "clear": "清空筛选"
+    },
+    "table": {
+      "orderInfo": "订单信息",
+      "customer": "顾客",
+      "items": "商品",
+      "amount": "金额",
+      "status": "状态",
+      "time": "下单时间",
+      "actions": "操作"
+    },
+    "status": {
+      "pending": "待处理",
+      "processing": "处理中",
+      "completed": "已完成",
+      "cancelled": "已取消"
+    },
+    "actions": {
+      "process": "处理订单",
+      "complete": "完成订单",
+      "cancel": "取消订单",
+      "view": "查看详情"
+    }
+  },
+  "productManage": {
+    "title": "商品管理",
+    "description": "管理咖啡厅的所有商品，包括添加、编辑、删除和库存管理。",
+    "createProduct": "新建商品",
+    "stats": {
+      "totalProducts": "总商品数",
+      "activeProducts": "在售商品",
+      "lowStock": "库存不足",
+      "avgPrice": "平均价格",
+      "fromLastMonth": "较上月",
+      "ofTotal": "占总数",
+      "items": "个商品"
+    },
+    "filters": {
+      "title": "筛选条件",
+      "searchPlaceholder": "搜索商品名称或描述...",
+      "category": {
+        "all": "所有分类",
+        "coffee": "咖啡",
+        "tea": "茶饮",
+        "juice": "果汁",
+        "snack": "小食"
+      },
+      "status": {
+        "all": "所有状态",
+        "active": "在售",
+        "inactive": "停售"
+      },
+      "clear": "清空筛选"
+    },
+    "table": {
+      "productInfo": "商品信息",
+      "category": "分类",
+      "price": "价格",
+      "stock": "库存",
+      "status": "状态",
+      "actions": "操作"
+    },
+    "status": {
+      "active": "在售",
+      "inactive": "停售"
+    },
+    "actions": {
+      "edit": "编辑",
+      "toggle": "切换状态",
+      "delete": "删除"
+    },
+    "modal": {
+      "createTitle": "新建商品",
+      "editTitle": "编辑商品",
+      "name": "商品名称",
+      "description": "商品描述",
+      "category": "分类",
+      "price": "价格",
+      "stock": "库存",
+      "image": "商品图片",
+      "save": "保存",
+      "create": "创建",
+      "cancel": "取消"
+    }
+  },
+  "analytics": {
+    "title": "数据分析",
+    "description": "查看咖啡厅的运营数据分析，包括销售趋势、商品统计和用户行为分析。",
+    "timeRange": {
+      "title": "时间范围",
+      "today": "今日",
+      "week": "本周",
+      "month": "本月",
+      "quarter": "本季度",
+      "year": "本年"
+    },
+    "overview": {
+      "title": "数据概览",
+      "revenue": "总营业额",
+      "orders": "订单总数",
+      "customers": "顾客总数",
+      "avgOrderValue": "平均订单价值",
+      "fromPrevious": "较上期"
+    },
+    "charts": {
+      "salesTrend": "销售趋势",
+      "productStats": "商品统计",
+      "customerActivity": "顾客活动",
+      "revenueByCategory": "分类营收",
+      "dailySales": "每日销售额",
+      "topProducts": "热销商品",
+      "peakHours": "高峰时段",
+      "customerRetention": "客户留存"
+    },
+    "tables": {
+      "topProducts": {
+        "title": "热销商品排行",
+        "product": "商品",
+        "sales": "销量",
+        "revenue": "营收",
+        "growth": "增长率"
+      },
+      "customerStats": {
+        "title": "顾客统计",
+        "customer": "顾客",
+        "orders": "订单数",
+        "totalSpent": "消费总额",
+        "lastOrder": "最后订单"
+      }
+    }
+  },
+  "settings": {
+    "title": "系统设置",
+    "description": "管理系统的各项配置，包括基本设置、通知配置和安全选项。",
+    "sections": {
+      "general": "基本设置",
+      "notifications": "通知设置",
+      "security": "安全设置",
+      "cafe": "咖啡厅设置",
+      "advanced": "高级设置"
+    },
+    "general": {
+      "siteName": "网站名称",
+      "siteDescription": "网站描述",
+      "language": "默认语言",
+      "timezone": "时区",
+      "currency": "货币",
+      "logo": "网站Logo"
+    },
+    "notifications": {
+      "emailNotifications": "邮件通知",
+      "newOrderAlert": "新订单提醒",
+      "lowStockAlert": "库存不足提醒",
+      "dailyReport": "每日报告",
+      "weeklyReport": "每周报告"
+    },
+    "security": {
+      "passwordPolicy": "密码策略",
+      "minPasswordLength": "最小密码长度",
+      "requireUppercase": "要求大写字母",
+      "requireNumbers": "要求数字",
+      "requireSymbols": "要求特殊字符",
+      "sessionTimeout": "会话超时时间",
+      "loginAttempts": "最大登录尝试次数"
+    },
+    "cafe": {
+      "cafeName": "咖啡厅名称",
+      "address": "地址",
+      "phone": "电话",
+      "email": "邮箱",
+      "openingHours": "营业时间",
+      "description": "描述",
+      "socialMedia": "社交媒体"
+    },
+    "advanced": {
+      "maintenanceMode": "维护模式",
+      "debugMode": "调试模式",
+      "cacheSettings": "缓存设置",
+      "apiSettings": "API设置",
+      "backupSettings": "备份设置"
+    },
+    "actions": {
+      "save": "保存设置",
+      "reset": "重置",
+      "export": "导出设置",
+      "import": "导入设置"
+    }
   },
   "userManage": {
     "title": "用户管理",
@@ -157,7 +372,8 @@
     "loginButton": "登录",
     "loggingIn": "登录中...",
     "errorRequired": "请输入用户名和密码",
-    "errorFailed": "登录失败，请检查用户名和密码"
+    "errorFailed": "登录失败，请检查用户名和密码",
+    "loginFailed": "登录失败"
   },
   "error": {
     "orderSubmitFailed": "订单提交失败，请重试"

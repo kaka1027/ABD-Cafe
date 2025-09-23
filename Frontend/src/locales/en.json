@@ -1,5 +1,9 @@
 {
   "welcome": "Welcome to ABD Cafe",
+  "cafe": {
+    "orderingSystem": "Cafe Ordering System",
+    "smartSystem": "Smart Ordering System"
+  },
   "nav": {
     "home": "Home",
     "login": "Login",
@@ -18,6 +22,7 @@
     "currentUser": "Current User",
     "remainingQuota": "Remaining Balance",
     "logout": "Logout",
+    "backToOrder": "Back to Order",
     "cart": "Cart",
     "total": "Total",
     "items": "{count} Items",
@@ -76,8 +81,9 @@
     }
   },
   "notFound": {
-    "title": "404 - Page Not Found",
+    "title": "Page Not Found",
     "message": "Sorry, the page you are looking for does not exist",
+    "goBack": "Go Back",
     "backHome": "Back to Home"
   },
   "admin": {
@@ -88,6 +94,215 @@
     "productManagement": "Product Management",
     "analytics": "Analytics",
     "settings": "Settings"
+  },
+  "orderManage": {
+    "title": "Order Management",
+    "description": "View and manage all orders, including processing, completing and analyzing order data.",
+    "stats": {
+      "totalOrders": "Total Orders",
+      "pendingOrders": "Pending",
+      "completedOrders": "Completed",
+      "todayRevenue": "Today's Revenue",
+      "fromYesterday": "from yesterday",
+      "ofTotal": "of total"
+    },
+    "filters": {
+      "title": "Filter Options",
+      "searchPlaceholder": "Search order ID or customer...",
+      "status": {
+        "all": "All Status",
+        "pending": "Pending",
+        "processing": "Processing",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "clear": "Clear Filters"
+    },
+    "table": {
+      "orderInfo": "Order Info",
+      "customer": "Customer",
+      "items": "Items",
+      "amount": "Amount",
+      "status": "Status",
+      "time": "Order Time",
+      "actions": "Actions"
+    },
+    "status": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "actions": {
+      "process": "Process Order",
+      "complete": "Complete Order",
+      "cancel": "Cancel Order",
+      "view": "View Details"
+    }
+  },
+  "productManage": {
+    "title": "Product Management",
+    "description": "Manage all cafe products, including adding, editing, deleting and inventory management.",
+    "createProduct": "New Product",
+    "stats": {
+      "totalProducts": "Total Products",
+      "activeProducts": "Active Products",
+      "lowStock": "Low Stock",
+      "avgPrice": "Average Price",
+      "fromLastMonth": "from last month",
+      "ofTotal": "of total",
+      "items": "items"
+    },
+    "filters": {
+      "title": "Filter Options",
+      "searchPlaceholder": "Search product name or description...",
+      "category": {
+        "all": "All Categories",
+        "coffee": "Coffee",
+        "tea": "Tea",
+        "juice": "Juice",
+        "snack": "Snack"
+      },
+      "status": {
+        "all": "All Status",
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "clear": "Clear Filters"
+    },
+    "table": {
+      "productInfo": "Product Info",
+      "category": "Category",
+      "price": "Price",
+      "stock": "Stock",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "edit": "Edit",
+      "toggle": "Toggle Status",
+      "delete": "Delete"
+    },
+    "modal": {
+      "createTitle": "Create Product",
+      "editTitle": "Edit Product",
+      "name": "Product Name",
+      "description": "Product Description",
+      "category": "Category",
+      "price": "Price",
+      "stock": "Stock",
+      "image": "Product Image",
+      "save": "Save",
+      "create": "Create",
+      "cancel": "Cancel"
+    }
+  },
+  "analytics": {
+    "title": "Analytics",
+    "description": "View operational data analysis of the cafe, including sales trends, product statistics and user behavior analysis.",
+    "timeRange": {
+      "title": "Time Range",
+      "today": "Today",
+      "week": "This Week",
+      "month": "This Month",
+      "quarter": "This Quarter",
+      "year": "This Year"
+    },
+    "overview": {
+      "title": "Data Overview",
+      "revenue": "Total Revenue",
+      "orders": "Total Orders",
+      "customers": "Total Customers",
+      "avgOrderValue": "Average Order Value",
+      "fromPrevious": "from previous"
+    },
+    "charts": {
+      "salesTrend": "Sales Trend",
+      "productStats": "Product Statistics",
+      "customerActivity": "Customer Activity",
+      "revenueByCategory": "Revenue by Category",
+      "dailySales": "Daily Sales",
+      "topProducts": "Top Products",
+      "peakHours": "Peak Hours",
+      "customerRetention": "Customer Retention"
+    },
+    "tables": {
+      "topProducts": {
+        "title": "Top Selling Products",
+        "product": "Product",
+        "sales": "Sales",
+        "revenue": "Revenue",
+        "growth": "Growth"
+      },
+      "customerStats": {
+        "title": "Customer Statistics",
+        "customer": "Customer",
+        "orders": "Orders",
+        "totalSpent": "Total Spent",
+        "lastOrder": "Last Order"
+      }
+    }
+  },
+  "settings": {
+    "title": "System Settings",
+    "description": "Manage system configurations, including basic settings, notifications and security options.",
+    "sections": {
+      "general": "General Settings",
+      "notifications": "Notification Settings",
+      "security": "Security Settings",
+      "cafe": "Cafe Settings",
+      "advanced": "Advanced Settings"
+    },
+    "general": {
+      "siteName": "Site Name",
+      "siteDescription": "Site Description",
+      "language": "Default Language",
+      "timezone": "Timezone",
+      "currency": "Currency",
+      "logo": "Site Logo"
+    },
+    "notifications": {
+      "emailNotifications": "Email Notifications",
+      "newOrderAlert": "New Order Alert",
+      "lowStockAlert": "Low Stock Alert",
+      "dailyReport": "Daily Report",
+      "weeklyReport": "Weekly Report"
+    },
+    "security": {
+      "passwordPolicy": "Password Policy",
+      "minPasswordLength": "Minimum Password Length",
+      "requireUppercase": "Require Uppercase",
+      "requireNumbers": "Require Numbers",
+      "requireSymbols": "Require Symbols",
+      "sessionTimeout": "Session Timeout",
+      "loginAttempts": "Maximum Login Attempts"
+    },
+    "cafe": {
+      "cafeName": "Cafe Name",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "openingHours": "Opening Hours",
+      "description": "Description",
+      "socialMedia": "Social Media"
+    },
+    "advanced": {
+      "maintenanceMode": "Maintenance Mode",
+      "debugMode": "Debug Mode",
+      "cacheSettings": "Cache Settings",
+      "apiSettings": "API Settings",
+      "backupSettings": "Backup Settings"
+    },
+    "actions": {
+      "save": "Save Settings",
+      "reset": "Reset",
+      "export": "Export Settings",
+      "import": "Import Settings"
+    }
   },
   "userManage": {
     "title": "User Management",
@@ -157,7 +372,8 @@
     "loginButton": "Login",
     "loggingIn": "Logging in...",
     "errorRequired": "Please enter username and password",
-    "errorFailed": "Login failed, please check your username and password"
+    "errorFailed": "Login failed, please check your username and password",
+    "loginFailed": "Login failed"
   },
   "error": {
     "orderSubmitFailed": "Order submission failed, please try again"

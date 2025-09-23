@@ -71,7 +71,7 @@
                       class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                     >
                       <ArrowLeftIcon class="w-4 h-4 mr-3 text-gray-400" />
-                      返回点餐
+                      {{ t('order.backToOrder') }}
                     </router-link>
 
                     <!-- 分隔线 -->
@@ -83,7 +83,7 @@
                       class="w-full flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                     >
                       <ArrowRightOnRectangleIcon class="w-4 h-4 mr-3 text-gray-400" />
-                      退出登录
+                      {{ t('order.logout') }}
                     </button>
                   </div>
                 </div>
@@ -135,6 +135,9 @@
               to="/admin/orders" 
               @click="mobileMenuOpen = false"
               class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+              :class="{
+                'bg-indigo-50 text-indigo-700 border-r-2 border-indigo-600': $route.path === '/admin/orders'
+              }"
             >
               <ShoppingBagIcon class="w-5 h-5 mr-3" />
               <span class="font-medium">{{ t('admin.orderManagement') }}</span>
@@ -144,6 +147,9 @@
               to="/admin/products" 
               @click="mobileMenuOpen = false"
               class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+              :class="{
+                'bg-indigo-50 text-indigo-700 border-r-2 border-indigo-600': $route.path === '/admin/products'
+              }"
             >
               <CubeIcon class="w-5 h-5 mr-3" />
               <span class="font-medium">{{ t('admin.productManagement') }}</span>
@@ -153,6 +159,9 @@
               to="/admin/analytics" 
               @click="mobileMenuOpen = false"
               class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+              :class="{
+                'bg-indigo-50 text-indigo-700 border-r-2 border-indigo-600': $route.path === '/admin/analytics'
+              }"
             >
               <ChartBarIcon class="w-5 h-5 mr-3" />
               <span class="font-medium">{{ t('admin.analytics') }}</span>
@@ -168,6 +177,9 @@
               to="/admin/settings" 
               @click="mobileMenuOpen = false"
               class="flex items-center px-4 py-3 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors"
+              :class="{
+                'bg-indigo-50 text-indigo-700 border-r-2 border-indigo-600': $route.path === '/admin/settings'
+              }"
             >
               <CogIcon class="w-5 h-5 mr-3" />
               <span class="font-medium">{{ t('admin.settings') }}</span>

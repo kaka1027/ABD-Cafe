@@ -20,7 +20,7 @@
               <span class="text-4xl">☕</span>
             </div>
             <h1 class="text-4xl font-bold mb-4">{{ t('welcome') }}</h1>
-            <p class="text-xl opacity-90">咖啡厅点餐系统</p>
+            <p class="text-xl opacity-90">{{ t('cafe.orderingSystem') }}</p>
           </div>
         </div>
       </div>
@@ -36,12 +36,12 @@
             </div>
             <div>
               <h2 class="text-2xl font-bold text-gray-900">ABD Cafe</h2>
-              <p class="text-sm text-gray-500">智能点餐系统</p>
+              <p class="text-sm text-gray-500">{{ t('cafe.smartSystem') }}</p>
             </div>
           </div>
 
           <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ t('login.subtitle') }}</h3>
-          <p class="text-sm text-gray-600 mb-8">请登录您的账户</p>
+          <p class="text-sm text-gray-600 mb-8">{{ t('login.subtitle') }}</p>
         </div>
 
         <div>
@@ -225,7 +225,7 @@ const handleLogin = async () => {
       errorMessage.value = result.message || t('login.errorFailed')
     }
   } catch (error) {
-    console.error('登录失败:', error)
+    console.error(t('login.loginFailed') + ':', error)
     errorMessage.value = t('login.errorFailed')
   } finally {
     isLoading.value = false

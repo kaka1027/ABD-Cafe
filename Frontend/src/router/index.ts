@@ -37,6 +37,31 @@ const router = createRouter({
           path: 'users',
           name: 'user-manage',
           component: () => import('../views/admin/UserManageView.vue')
+        },
+        {
+          path: 'orders',
+          name: 'order-manage',
+          component: () => import('../views/admin/OrderManageView.vue')
+        },
+        {
+          path: 'products',
+          name: 'product-manage',
+          component: () => import('../views/admin/ProductManageView.vue')
+        },
+        {
+          path: 'analytics',
+          name: 'analytics',
+          component: () => import('../views/admin/AnalyticsView.vue')
+        },
+        {
+          path: 'settings',
+          name: 'settings',
+          component: () => import('../views/admin/SettingsView.vue')
+        },
+        // 默认重定向到用户管理
+        {
+          path: '',
+          redirect: 'users'
         }
       ]
     },
