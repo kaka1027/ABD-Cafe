@@ -62,7 +62,7 @@
               <h2 class="text-lg font-semibold text-gray-900">{{ t('order.menuTitle') }}</h2>
               <p class="mt-1 text-sm text-gray-500">{{ t('order.menuDesc') }}</p>
             </div>
-            
+
             <!-- 分类筛选 -->
             <div class="p-6 border-b border-gray-200">
               <div class="flex flex-wrap gap-2">
@@ -76,7 +76,7 @@
                   }"
                   class="px-4 py-2 rounded-full text-sm font-medium transition-colors"
                 >
-                  {{ category === 'all' ? t('all') : t(`${category}`) }}
+                  {{ t(`order.categories.${category}`) }}
                 </button>
               </div>
             </div>
@@ -102,7 +102,7 @@
                       <span class="text-lg font-bold text-indigo-600">¥{{ drink.price.toFixed(2) }}</span>
                     </div>
                     <p class="text-sm text-gray-500 mb-4">{{ drink.description }}</p>
-                    
+
                     <!-- 温度选择 -->
                     <div class="mb-4" v-if="drink.hasTemperature">
                       <p class="text-sm font-medium text-gray-700 mb-2">{{ t('order.temperature.title') }}</p>
@@ -208,7 +208,7 @@
                   <p>{{ t('order.total') }}</p>
                   <p>¥{{ totalAmount.toFixed(2) }}</p>
                 </div>
-                
+
                 <!-- 余额不足提示 -->
                 <div v-if="currentUser && totalAmount > currentUser.remainingQuota" class="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
                   <div class="flex">
@@ -281,7 +281,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
@@ -309,8 +309,6 @@ interface CartItem extends Drink {
 const currentUser = computed(() => {
   const user = userStore.user
   if (!user) {
-    // 如果没有登录，跳转到登录页
-    router.push('/')
     return null
   }
 
@@ -318,6 +316,13 @@ const currentUser = computed(() => {
     username: user.username,
     remainingQuota: 85.50, // TODO: 从后端获取真实的余额数据
     role: user.role
+  }
+})
+
+// 检查登录状态
+watchEffect(() => {
+  if (!userStore.user) {
+    router.push('/')
   }
 })
 
@@ -341,7 +346,7 @@ const drinks = computed<Drink[]>(() => [
     name: t('order.drinks.americano.name'),
     price: 25.00,
     description: t('order.drinks.americano.desc'),
-    category: t('order.categories.coffee'),
+    category: 'coffee',
     image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=300',
     hasTemperature: true
   },
@@ -350,7 +355,7 @@ const drinks = computed<Drink[]>(() => [
     name: t('order.drinks.latte.name'),
     price: 32.00,
     description: t('order.drinks.latte.desc'),
-    category: t('order.categories.coffee'),
+    category: 'coffee',
     image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=300',
     hasTemperature: true
   },
@@ -359,7 +364,7 @@ const drinks = computed<Drink[]>(() => [
     name: t('order.drinks.cappuccino.name'),
     price: 30.00,
     description: t('order.drinks.cappuccino.desc'),
-    category: t('order.categories.coffee'),
+    category: 'coffee',
     image: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=300',
     hasTemperature: true
   },
@@ -368,7 +373,7 @@ const drinks = computed<Drink[]>(() => [
     name: t('order.drinks.matchaLatte.name'),
     price: 35.00,
     description: t('order.drinks.matchaLatte.desc'),
-    category: t('order.categories.tea'),
+    category: 'tea',
     image: 'https://images.unsplash.com/photo-1515823064-d6e0c04616a7?w=300',
     hasTemperature: true
   },
@@ -377,7 +382,7 @@ const drinks = computed<Drink[]>(() => [
     name: t('order.drinks.honeyLemonTea.name'),
     price: 28.00,
     description: t('order.drinks.honeyLemonTea.desc'),
-    category: t('order.categories.tea'),
+    category: 'tea',
     image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=300',
     hasTemperature: false
   },
@@ -386,7 +391,7 @@ const drinks = computed<Drink[]>(() => [
     name: t('order.drinks.mangoJuice.name'),
     price: 22.00,
     description: t('order.drinks.mangoJuice.desc'),
-    category: t('order.categories.juice'),
+    category: 'juice',
     image: 'https://images.unsplash.com/photo-1553979459-d2229ba7433a?w=300',
     hasTemperature: false
   }
@@ -433,7 +438,7 @@ const decreaseQuantity = (drinkId: number) => {
 const addToCart = (drink: Drink) => {
   const quantity = getDrinkQuantity(drink.id)
   const temperature = drink.hasTemperature ? getDrinkTemperature(drink.id) : undefined
-  
+
   if (quantity <= 0) return
   if (drink.hasTemperature && !temperature) return
 
@@ -500,7 +505,7 @@ const submitOrder = async () => {
 
     // 显示成功提示
     showSuccessModal.value = true
-  } catch (error) {
+  } catch {
     alert(t('error.orderSubmitFailed'))
   } finally {
     isSubmitting.value = false

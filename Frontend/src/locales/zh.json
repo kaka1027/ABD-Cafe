@@ -33,6 +33,9 @@
     "orderNumber": "您的订单已提交，订单号为 #{number}",
     "continueOrder": "继续点单",
     "insufficientBalance": "余额不足，还需要 ¥{amount}",
+    "product": {
+      "addToCart": "加入购物车"
+    },
     "temperature": {
       "title": "温度选择",
       "hot": "热饮",

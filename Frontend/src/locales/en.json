@@ -17,6 +17,7 @@
     "title": "Cafe Order",
     "currentUser": "Current User",
     "remainingQuota": "Remaining Balance",
+    "logout": "Logout",
     "cart": "Cart",
     "total": "Total",
     "items": "{count} Items",
@@ -32,6 +33,9 @@
     "orderNumber": "Your order has been submitted, order number: #{number}",
     "continueOrder": "Continue Ordering",
     "insufficientBalance": "Insufficient balance, need ¥{amount} more",
+    "product": {
+      "addToCart": "Add to Cart"
+    },
     "temperature": {
       "title": "Temperature",
       "hot": "Hot",
