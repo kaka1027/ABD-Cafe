@@ -82,7 +82,12 @@
   },
   "admin": {
     "title": "管理面板",
-    "userManagement": "用户管理"
+    "subtitle": "ABD Café 系统管理",
+    "userManagement": "用户管理",
+    "orderManagement": "订单管理",
+    "productManagement": "商品管理",
+    "analytics": "数据分析",
+    "settings": "系统设置"
   },
   "userManage": {
     "title": "用户管理",
@@ -98,6 +103,21 @@
       "all": "所有角色",
       "admin": "管理员",
       "user": "普通用户"
+    },
+    "stats": {
+      "totalUsers": "总用户数",
+      "activeUsers": "活跃用户",
+      "totalQuota": "总余额",
+      "admins": "管理员",
+      "fromLastMonth": "较上月",
+      "ofTotal": "占总数",
+      "avgPerUser": "平均每人"
+    },
+    "filters": {
+      "title": "筛选条件",
+      "activeOnly": "仅活跃用户",
+      "adminsOnly": "仅管理员",
+      "clear": "清空筛选"
     },
     "table": {
       "userInfo": "用户信息",
@@ -147,5 +167,9 @@
     "resetPassword": "重置密码",
     "freeze": "冻结用户",
     "unfreeze": "启用用户"
+  },
+  "footer": {
+    "allRightsReserved": "版权所有。",
+    "poweredBy": "技术支持"
   }
 }

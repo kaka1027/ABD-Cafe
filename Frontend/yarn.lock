@@ -634,6 +634,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@heroicons/vue@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@heroicons/vue@npm:2.2.0"
+  peerDependencies:
+    vue: ">= 3"
+  checksum: 10c0/8872f89cd033ce21363b5457adb7ea6cb9631cfbe85006b4131f9078c75c1c9701fd6d9d727d49c739b8716f4a46ccdd2ffae8c6635fc2528efaf0982759edb3
+  languageName: node
+  linkType: hard
+
 "@humanfs/core@npm:^0.19.1":
   version: 0.19.1
   resolution: "@humanfs/core@npm:0.19.1"
@@ -1725,6 +1734,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "abd-cafe@workspace:."
   dependencies:
+    "@heroicons/vue": "npm:^2.2.0"
     "@tailwindcss/vite": "npm:^4.1.13"
     "@tsconfig/node22": "npm:^22.0.2"
     "@types/node": "npm:^22.16.5"

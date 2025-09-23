@@ -1,12 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
+      redirect: '/login'
+    },
+    {
+      path: '/login',
       name: 'login',
-      component: () => import('../views/LoginView.vue'),
+      component: () => import('../views/auth/LoginView.vue'),
       meta: {
         guest: true // 游客可访问
       }
@@ -14,7 +19,7 @@ const router = createRouter({
     {
       path: '/order',
       name: 'order',
-      component: () => import('../views/OrderView.vue'),
+      component: () => import('../views/order/OrderView.vue'),
       meta: {
         requiresAuth: true // 需要登录
       }
@@ -22,7 +27,7 @@ const router = createRouter({
     {
       path: '/admin',
       name: 'admin',
-      component: () => import('../views/AdminLayout.vue'),
+      component: () => import('../views/admin/AdminLayout.vue'),
       meta: {
         requiresAuth: true,
         requiresAdmin: true // 需要管理员权限
@@ -31,7 +36,7 @@ const router = createRouter({
         {
           path: 'users',
           name: 'user-manage',
-          component: () => import('../views/UserManageView.vue')
+          component: () => import('../views/admin/UserManageView.vue')
         }
       ]
     },
@@ -39,9 +44,36 @@ const router = createRouter({
     {
       path: '/:pathMatch(.*)*',
       name: 'not-found',
-      component: () => import('../views/NotFoundView.vue')
+      component: () => import('../views/common/NotFoundView.vue')
     }
   ],
+})
+
+// 路由守卫
+router.beforeEach((to, _from, next) => {
+  const userStore = useUserStore()
+  
+  // 需要登录的页面
+  if (to.meta.requiresAuth) {
+    if (!userStore.user) {
+      next('/login')
+      return
+    }
+    
+    // 需要管理员权限的页面
+    if (to.meta.requiresAdmin && userStore.user.role !== 'admin') {
+      next('/order') // 非管理员跳转到点餐页
+      return
+    }
+  }
+  
+  // 已登录用户访问登录页，跳转到点餐页
+  if (to.path === '/login' && userStore.user) {
+    next('/order')
+    return
+  }
+  
+  next()
 })
 
 export default router

@@ -82,7 +82,12 @@
   },
   "admin": {
     "title": "Admin Panel",
-    "userManagement": "User Management"
+    "subtitle": "ABD Café System Management",
+    "userManagement": "User Management",
+    "orderManagement": "Order Management",
+    "productManagement": "Product Management",
+    "analytics": "Analytics",
+    "settings": "Settings"
   },
   "userManage": {
     "title": "User Management",
@@ -98,6 +103,21 @@
       "all": "All Roles",
       "admin": "Administrator",
       "user": "Regular User"
+    },
+    "stats": {
+      "totalUsers": "Total Users",
+      "activeUsers": "Active Users",
+      "totalQuota": "Total Quota",
+      "admins": "Administrators",
+      "fromLastMonth": "from last month",
+      "ofTotal": "of total",
+      "avgPerUser": "avg per user"
+    },
+    "filters": {
+      "title": "Filter Options",
+      "activeOnly": "Active Only",
+      "adminsOnly": "Admins Only",
+      "clear": "Clear Filters"
     },
     "table": {
       "userInfo": "User Info",
@@ -147,5 +167,9 @@
     "resetPassword": "Reset password",
     "freeze": "Freeze user",
     "unfreeze": "Unfreeze user"
+  },
+  "footer": {
+    "allRightsReserved": "All rights reserved.",
+    "poweredBy": "Powered by"
   }
 }
