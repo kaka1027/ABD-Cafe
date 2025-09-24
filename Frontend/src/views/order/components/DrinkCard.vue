@@ -14,49 +14,16 @@
       </div>
       <p class="text-sm text-gray-600 mb-4">{{ drink.description }}</p>
       
-      <!-- 温度选择 -->
-      <div v-if="drink.hasTemperature" class="mb-4">
-        <p class="text-sm font-medium text-gray-700 mb-2">{{ t('order.temperature.title') }}</p>
-        <div class="flex space-x-2">
-          <button
-            v-for="temp in temperatures"
-            :key="temp"
-            @click="selectedTemperature = temp"
-            :class="{
-              'bg-indigo-600 text-white': selectedTemperature === temp,
-              'bg-gray-100 text-gray-700 hover:bg-gray-200': selectedTemperature !== temp
-            }"
-            class="px-3 py-1 rounded-full text-xs font-medium transition-colors"
-          >
-            {{ temp }}
-          </button>
-        </div>
-      </div>
-      
-      <!-- 数量选择和添加按钮 -->
+      <!-- 定制按钮 -->
       <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-2">
-          <button
-            @click="decreaseQuantity"
-            :disabled="quantity <= 0"
-            class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <MinusIcon class="w-4 h-4" />
-          </button>
-          <span class="w-8 text-center text-sm font-medium">{{ quantity }}</span>
-          <button
-            @click="increaseQuantity"
-            class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-gray-200"
-          >
-            <PlusIcon class="w-4 h-4" />
-          </button>
+        <div class="text-sm text-gray-500">
+          {{ t('order.customize.clickToCustomize') }}
         </div>
         <button
-          @click="addToCart"
-          :disabled="quantity === 0 || (drink.hasTemperature && !selectedTemperature)"
-          class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          @click="openCustomizer"
+          class="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-amber-600 hover:to-orange-600 transition-all duration-200"
         >
-          {{ t('order.product.addToCart') }}
+          {{ t('order.customize.customize') }}
         </button>
       </div>
     </div>
@@ -64,9 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { MinusIcon, PlusIcon } from '@heroicons/vue/24/outline'
 
 interface Drink {
   id: number
@@ -80,7 +45,6 @@ interface Drink {
 
 interface Props {
   drink: Drink
-  temperatures: string[]
 }
 
 const props = defineProps<Props>()
@@ -89,36 +53,16 @@ const emit = defineEmits<{
   addToCart: [item: {
     drink: Drink
     quantity: number
-    temperature?: string
   }]
 }>()
 
 const { t } = useI18n()
 
-const quantity = ref(0)
-const selectedTemperature = ref('')
-
-const increaseQuantity = () => {
-  quantity.value++
-}
-
-const decreaseQuantity = () => {
-  if (quantity.value > 0) {
-    quantity.value--
-  }
-}
-
-const addToCart = () => {
-  if (quantity.value > 0) {
-    emit('addToCart', {
-      drink: props.drink,
-      quantity: quantity.value,
-      temperature: props.drink.hasTemperature ? selectedTemperature.value : undefined
-    })
-    // 重置选择
-    quantity.value = 0
-    selectedTemperature.value = ''
-  }
+const openCustomizer = () => {
+  emit('addToCart', {
+    drink: props.drink,
+    quantity: 1
+  })
 }
 </script>
 

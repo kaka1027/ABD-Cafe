@@ -41,6 +41,42 @@
     "product": {
       "addToCart": "加入购物车"
     },
+    "customize": {
+      "title": "定制您的饮品",
+      "customize": "定制",
+      "clickToCustomize": "点击定制您的专属饮品",
+      "size": {
+        "title": "大小",
+        "small": "小杯",
+        "medium": "中杯", 
+        "large": "大杯"
+      },
+      "milk": {
+        "title": "奶类选择",
+        "regular": "普通牛奶",
+        "oat": "燕麦奶",
+        "coconut": "椰奶",
+        "soy": "豆奶",
+        "almond": "杏仁奶",
+        "none": "不加奶"
+      },
+      "sugar": {
+        "title": "糖度",
+        "none": "无糖",
+        "less": "少糖",
+        "normal": "正常糖",
+        "extra": "多糖"
+      },
+      "notes": {
+        "title": "特殊要求",
+        "placeholder": "请输入特殊要求（可选）"
+      },
+      "quantity": "数量",
+      "totalPrice": "总价",
+      "extraFee": "额外费用",
+      "addToCart": "添加到购物车",
+      "cancel": "取消"
+    },
     "temperature": {
       "title": "温度选择",
       "hot": "热饮",

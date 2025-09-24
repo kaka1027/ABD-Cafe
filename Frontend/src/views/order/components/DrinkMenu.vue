@@ -19,7 +19,6 @@
           v-for="drink in drinks"
           :key="drink.id"
           :drink="drink"
-          :temperatures="temperatures"
           @add-to-cart="$emit('addToCart', $event)"
         />
       </div>
@@ -46,7 +45,6 @@ interface Props {
   drinks: Drink[]
   categories: string[]
   selectedCategory: string
-  temperatures: string[]
 }
 
 defineProps<Props>()
@@ -56,7 +54,6 @@ defineEmits<{
   addToCart: [item: {
     drink: Drink
     quantity: number
-    temperature?: string
   }]
 }>()
 

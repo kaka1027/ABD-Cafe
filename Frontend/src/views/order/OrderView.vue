@@ -8,7 +8,6 @@
             :drinks="filteredDrinks"
             :categories="categories"
             :selected-category="selectedCategory"
-            :temperatures="temperatures"
             @category-change="selectedCategory = $event"
             @add-to-cart="handleAddToCart"
           />
@@ -35,6 +34,14 @@
       :order-id="lastOrderId"
       @close="closeSuccessModal"
     />
+
+    <!-- 饮品定制模态框 -->
+    <DrinkCustomizer
+      :show="showCustomizerModal"
+      :drink="selectedDrinkForCustomization"
+      @close="closeCustomizerModal"
+      @add-to-cart="handleCustomizedAddToCart"
+    />
   </div>
 </template>
 
@@ -47,6 +54,7 @@ import { useUserStore } from '@/stores/user'
 import DrinkMenu from './components/DrinkMenu.vue'
 import ShoppingCart from './components/ShoppingCart.vue'
 import OrderSuccess from './components/OrderSuccess.vue'
+import DrinkCustomizer from './components/DrinkCustomizer.vue'
 
 const { t } = useI18n()
 const userStore = useUserStore()
@@ -62,9 +70,18 @@ interface Drink {
   hasTemperature: boolean
 }
 
+interface DrinkCustomization {
+  size?: string
+  temperature?: string
+  milk?: string
+  sugar?: string
+  notes?: string
+}
+
 interface CartItem extends Drink {
   quantity: number
-  temperature?: string
+  customizations: DrinkCustomization
+  finalPrice: number // 定制后的最终价格
 }
 
 // 用户余额
@@ -78,15 +95,12 @@ const isSubmitting = ref(false)
 const showSuccessModal = ref(false)
 const lastOrderId = ref('')
 
+// 定制模态框状态
+const showCustomizerModal = ref(false)
+const selectedDrinkForCustomization = ref<Drink | null>(null)
+
 // 购物车
 const cartItems = ref<CartItem[]>([])
-
-// 温度选项
-const temperatures = [
-  t('order.temperature.hot'),
-  t('order.temperature.warm'),
-  t('order.temperature.cold')
-]
 
 // 饮品数据
 const drinks = computed<Drink[]>(() => [
@@ -162,16 +176,23 @@ const filteredDrinks = computed(() => {
 
 // 购物车总金额
 const totalAmount = computed(() => {
-  return cartItems.value.reduce((total, item) => total + (item.price * item.quantity), 0)
+  return cartItems.value.reduce((total, item) => total + (item.finalPrice * item.quantity), 0)
 })
 
-// 添加到购物车
-const handleAddToCart = (item: { drink: Drink; quantity: number; temperature?: string }) => {
-  const { drink, quantity, temperature } = item
+// 打开定制模态框
+const handleAddToCart = (item: { drink: Drink; quantity: number }) => {
+  selectedDrinkForCustomization.value = item.drink
+  showCustomizerModal.value = true
+}
+
+// 从定制模态框添加到购物车
+const handleCustomizedAddToCart = (order: { drink: Drink; quantity: number; customizations: DrinkCustomization; finalPrice: number }) => {
+  const { drink, quantity, customizations, finalPrice } = order
   
-  // 查找是否已存在相同商品和温度的项目
-  const existingIndex = cartItems.value.findIndex(
-    cartItem => cartItem.id === drink.id && cartItem.temperature === temperature
+  // 查找是否已存在相同定制选项的项目
+  const existingIndex = cartItems.value.findIndex(cartItem => 
+    cartItem.id === drink.id && 
+    JSON.stringify(cartItem.customizations) === JSON.stringify(customizations)
   )
   
   if (existingIndex > -1) {
@@ -182,25 +203,32 @@ const handleAddToCart = (item: { drink: Drink; quantity: number; temperature?: s
     cartItems.value.push({
       ...drink,
       quantity,
-      temperature
+      customizations,
+      finalPrice: finalPrice / quantity // 单价
     })
   }
+  
+  // 关闭模态框
+  showCustomizerModal.value = false
+  selectedDrinkForCustomization.value = null
 }
 
 // 更新购物车商品数量
 const updateCartItemQuantity = (item: CartItem, newQuantity: number) => {
   if (newQuantity <= 0) {
     // 移除商品
-    const index = cartItems.value.findIndex(
-      cartItem => cartItem.id === item.id && cartItem.temperature === item.temperature
+    const index = cartItems.value.findIndex(cartItem => 
+      cartItem.id === item.id && 
+      JSON.stringify(cartItem.customizations) === JSON.stringify(item.customizations)
     )
     if (index > -1) {
       cartItems.value.splice(index, 1)
     }
   } else {
     // 更新数量
-    const cartItem = cartItems.value.find(
-      cartItem => cartItem.id === item.id && cartItem.temperature === item.temperature
+    const cartItem = cartItems.value.find(cartItem => 
+      cartItem.id === item.id && 
+      JSON.stringify(cartItem.customizations) === JSON.stringify(item.customizations)
     )
     if (cartItem) {
       cartItem.quantity = newQuantity
@@ -238,6 +266,12 @@ const submitOrder = async () => {
 // 关闭成功模态框
 const closeSuccessModal = () => {
   showSuccessModal.value = false
+}
+
+// 关闭定制模态框
+const closeCustomizerModal = () => {
+  showCustomizerModal.value = false
+  selectedDrinkForCustomization.value = null
 }
 </script>
 

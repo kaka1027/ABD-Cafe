@@ -16,7 +16,7 @@
         <!-- 主要内容 -->
         <div class="absolute inset-0 flex flex-col justify-center items-center text-white p-12">
           <div class="text-center">
-            <div class="w-24 h-24 mx-auto mb-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center backdrop-blur-sm">
+            <div class="w-24 h-24 mx-auto mb-8 bg-white opacity-80 rounded-full flex items-center justify-center backdrop-blur-sm">
               <span class="text-4xl">☕</span>
             </div>
             <h1 class="text-4xl font-bold mb-4">{{ t('welcome') }}</h1>

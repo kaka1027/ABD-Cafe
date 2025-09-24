@@ -115,7 +115,7 @@
         <!-- 移动端遮罩 -->
         <div v-if="mobileMenuOpen" 
              @click="mobileMenuOpen = false"
-             class="fixed inset-0 bg-black bg-opacity-50 lg:hidden z-30"></div>
+             class="fixed inset-0 bg-black opacity-50 lg:hidden z-30"></div>
         
         <nav class="p-6 relative z-40 bg-white h-full">
           <div class="space-y-2">

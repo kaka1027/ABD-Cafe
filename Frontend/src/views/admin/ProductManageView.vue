@@ -229,8 +229,8 @@
     </div>
 
     <!-- 商品模态框 -->
-    <div v-if="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div class="bg-white rounded-lg w-full max-w-md">
+    <div v-if="showModal" class="fixed inset-0 bg-black opacity-50 flex items-center justify-center z-50 p-4" @click="closeModal">
+      <div class="bg-white rounded-lg w-full max-w-md" @click.stop>
         <div class="p-6 border-b border-gray-200">
           <h3 class="text-lg font-medium text-gray-900">
             {{ editingProduct ? t('productManage.modal.editTitle') : t('productManage.modal.createTitle') }}

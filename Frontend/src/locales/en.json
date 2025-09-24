@@ -41,6 +41,42 @@
     "product": {
       "addToCart": "Add to Cart"
     },
+    "customize": {
+      "title": "Customize Your Drink",
+      "customize": "Customize", 
+      "clickToCustomize": "Click to customize your drink",
+      "size": {
+        "title": "Size",
+        "small": "Small",
+        "medium": "Medium",
+        "large": "Large"
+      },
+      "milk": {
+        "title": "Milk Options",
+        "regular": "Regular Milk",
+        "oat": "Oat Milk",
+        "coconut": "Coconut Milk",
+        "soy": "Soy Milk",
+        "almond": "Almond Milk",
+        "none": "No Milk"
+      },
+      "sugar": {
+        "title": "Sugar Level",
+        "none": "No Sugar",
+        "less": "Less Sugar",
+        "normal": "Regular Sugar",
+        "extra": "Extra Sugar"
+      },
+      "notes": {
+        "title": "Special Requests",
+        "placeholder": "Enter special requests (optional)"
+      },
+      "quantity": "Quantity",
+      "totalPrice": "Total Price",
+      "extraFee": "Extra Fee",
+      "addToCart": "Add to Cart",
+      "cancel": "Cancel"
+    },
     "temperature": {
       "title": "Temperature",
       "hot": "Hot",
