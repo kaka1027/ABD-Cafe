@@ -226,7 +226,7 @@ const closeUserModal = () => {
 }
 
 // 保存用户
-const saveUser = (userData: User) => {
+const saveUser = (userData: Partial<User>) => {
   if (editingUser.value) {
     // 编辑模式
     const index = users.value.findIndex(u => u.id === editingUser.value!.id)
@@ -240,7 +240,7 @@ const saveUser = (userData: User) => {
       id: Math.max(...users.value.map(u => u.id)) + 1,
       status: 'active',
       lastLogin: new Date().toISOString()
-    }
+    } as User
     users.value.push(newUser)
   }
   closeUserModal()

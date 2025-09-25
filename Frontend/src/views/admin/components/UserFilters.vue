@@ -16,7 +16,7 @@
         <input
           type="text"
           :value="searchQuery"
-          @input="$emit('update:searchQuery', $event.target.value)"
+          @input="$emit('update:searchQuery', ($event.target as HTMLInputElement)?.value || '')"
           :placeholder="t('userManage.searchPlaceholder')"
           class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all placeholder-gray-500"
         />
@@ -26,7 +26,7 @@
       <div class="relative">
         <select
           :value="statusFilter"
-          @change="$emit('update:statusFilter', $event.target.value)"
+          @change="$emit('update:statusFilter', ($event.target as HTMLSelectElement)?.value || '')"
           class="block w-full px-3 py-2.5 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all appearance-none cursor-pointer"
         >
           <option value="" class="bg-white">{{ t('userManage.status.all') }}</option>
@@ -42,7 +42,7 @@
       <div class="relative">
         <select
           :value="roleFilter"
-          @change="$emit('update:roleFilter', $event.target.value)"
+          @change="$emit('update:roleFilter', ($event.target as HTMLSelectElement)?.value || '')"
           class="block w-full px-3 py-2.5 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all appearance-none cursor-pointer"
         >
           <option value="" class="bg-white">{{ t('userManage.role.all') }}</option>

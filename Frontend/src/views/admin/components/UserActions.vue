@@ -37,16 +37,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { PencilIcon, KeyIcon, XMarkIcon, CheckCircleIcon } from '@heroicons/vue/24/outline'
-
-interface User {
-  id: number
-  username: string
-  email: string
-  role: string
-  status: string
-  quota: number
-  lastLogin: string
-}
+import type { User } from '@/types/user'
 
 interface Props {
   user: User

@@ -1,3 +1,4 @@
+import './config';
 import morgan from 'morgan';
 import path from 'path';
 import helmet from 'helmet';

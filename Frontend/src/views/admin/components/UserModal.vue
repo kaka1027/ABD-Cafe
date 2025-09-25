@@ -109,13 +109,9 @@
 <script setup lang="ts">
 import { watch, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
+import type { User } from '@/types/user'
 
-interface User {
-  id?: number
-  username: string
-  email: string
-  role: string
-  quota: number
+interface UserFormData extends Partial<User> {
   password?: string
 }
 
@@ -127,19 +123,21 @@ interface Props {
 
 const props = defineProps<Props>()
 
-defineEmits<{
+const emit = defineEmits<{
   close: []
-  submit: [data: User]
+  submit: [data: UserFormData]
 }>()
 
 const { t } = useI18n()
 
-const formData = reactive<User>({
+const formData = reactive<UserFormData>({
   username: '',
   email: '',
   role: 'user',
   quota: 100,
-  password: ''
+  password: '',
+  status: 'active',
+  lastLogin: new Date().toISOString()
 })
 
 // 监听用户数据变化，更新表单

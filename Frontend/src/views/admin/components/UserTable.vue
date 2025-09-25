@@ -57,7 +57,7 @@
             </span>
           </td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-            ¥{{ user.quota.toFixed(2) }}
+            ¥{{ (user.quota || 0).toFixed(2) }}
           </td>
           <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500">
             {{ formatDate(user.lastLogin) }}
@@ -79,16 +79,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import UserActions from './UserActions.vue'
-
-interface User {
-  id: number
-  username: string
-  email: string
-  role: string
-  status: string
-  quota: number
-  lastLogin: string
-}
+import type { User } from '@/types/user'
 
 interface Props {
   users: User[]

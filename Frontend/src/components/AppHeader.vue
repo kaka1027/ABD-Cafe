@@ -144,12 +144,7 @@ import {
   ChevronDownIcon
 } from '@heroicons/vue/24/outline'
 import LanguageSwitcher from './LanguageSwitcher.vue'
-
-interface UserInfo {
-  username: string
-  role?: string
-  remainingQuota?: number
-}
+import type { UserInfo } from '@/types/user'
 
 interface Props {
   // 显示控制
