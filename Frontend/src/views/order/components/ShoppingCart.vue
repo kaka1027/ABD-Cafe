@@ -11,13 +11,13 @@
       <div class="space-y-4 max-h-96 overflow-y-auto">
         <div
           v-for="item in cartItems"
-          :key="`${item.id}-${item.temperature}`"
+          :key="`${item.id}-${item.customizations.temperature}`"
           class="flex items-center justify-between py-3 border-b border-gray-100 last:border-b-0"
         >
           <div class="flex-1 min-w-0 pr-4">
             <p class="text-sm font-medium text-gray-900 truncate">{{ item.name }}</p>
-            <p class="text-xs text-gray-500" v-if="item.temperature">{{ item.temperature }}</p>
-            <p class="text-sm text-gray-600">¥{{ item.price.toFixed(2) }} × {{ item.quantity }}</p>
+            <p class="text-xs text-gray-500" v-if="item.customizations.temperature">{{ item.customizations.temperature }}</p>
+            <p class="text-sm text-gray-600">¥{{ item.finalPrice.toFixed(2) }} × {{ item.quantity }}</p>
           </div>
           <div class="flex items-center space-x-2">
             <button
@@ -78,6 +78,14 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { MinusIcon, PlusIcon, XCircleIcon, ShoppingBagIcon } from '@heroicons/vue/24/outline'
 
+interface DrinkCustomization {
+  size?: string
+  temperature?: string
+  milk?: string
+  sugar?: string
+  notes?: string
+}
+
 interface CartItem {
   id: number
   name: string
@@ -87,7 +95,8 @@ interface CartItem {
   image: string
   hasTemperature: boolean
   quantity: number
-  temperature?: string
+  customizations: DrinkCustomization
+  finalPrice: number
 }
 
 interface Props {
