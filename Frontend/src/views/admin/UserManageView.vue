@@ -131,9 +131,9 @@ interface User {
   id: number
   username: string
   email: string
-  role: string
-  status: string
-  quota: number
+  role: 'admin' | 'user'
+  status: 'active' | 'inactive'
+  quota?: number
   lastLogin: string
 }
 
@@ -180,7 +180,7 @@ const activeUsersCount = computed(() => users.value.filter(u => u.status === 'ac
 const activeUsersPercentage = computed(() => Math.round((activeUsersCount.value / users.value.length) * 100))
 const adminUsersCount = computed(() => users.value.filter(u => u.role === 'admin').length)
 const adminUsersPercentage = computed(() => Math.round((adminUsersCount.value / users.value.length) * 100))
-const totalQuota = computed(() => users.value.reduce((sum, user) => sum + user.quota, 0))
+const totalQuota = computed(() => users.value.reduce((sum, user) => sum + (user.quota || 0), 0))
 const averageQuota = computed(() => totalQuota.value / users.value.length)
 const filteredUsers = computed(() => {
   let filtered = users.value
