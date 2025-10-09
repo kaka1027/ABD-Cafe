@@ -2,7 +2,7 @@
 # 使用多阶段构建优化镜像大小
 
 # 阶段 1: 构建阶段
-FROM node:20-alpine AS builder
+FROM docker-pull.ygxz.in/library/node:22-alpine AS builder
 
 # 设置工作目录
 WORKDIR /app
@@ -27,7 +27,7 @@ COPY . .
 RUN yarn build
 
 # 阶段 2: 生产阶段
-FROM node:20-alpine
+FROM docker-pull.ygxz.in/library/node:22-alpine
 
 # 设置工作目录
 WORKDIR /app
