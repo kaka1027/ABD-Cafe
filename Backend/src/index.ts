@@ -19,17 +19,35 @@ const PORT = process.env.PORT || 3001;
 // 中间件配置
 app.use(helmet()); // 安全头设置
 app.use(morgan('combined')); // 请求日志
+
+// CORS 配置：根据环境动态设置允许的域名
+const allowedOrigins = [
+  // 本地开发环境
+  'http://localhost:5173',
+  'http://localhost:5174',
+  'http://localhost:5175',
+  'http://127.0.0.1:5173',
+  'http://127.0.0.1:5174',
+  'http://127.0.0.1:5175',
+  // 生产环境（从环境变量读取）
+  process.env.FRONTEND_URL
+].filter(Boolean); // 过滤掉 undefined
+
 app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'http://localhost:5174',
-    'http://localhost:5175',
-    'http://127.0.0.1:5173',
-    'http://127.0.0.1:5174',
-    'http://127.0.0.1:5175'
-  ], // 允许前端域名
+  origin: (origin, callback) => {
+    // 允许没有 origin 的请求（比如移动应用、Postman）
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.warn(`⚠️  CORS 拒绝来自 ${origin} 的请求`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true // 允许携带 cookies
 }));
+
 app.use(express.json({ limit: '10mb' })); // 解析 JSON 请求体
 app.use(express.urlencoded({ extended: true, limit: '10mb' })); // 解析 URL 编码的请求体
 

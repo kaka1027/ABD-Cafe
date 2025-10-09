@@ -1,0 +1,56 @@
+# ABD-Cafe Docker Compose 配置
+# 用于本地测试和阿里云部署
+
+version: '3.8'
+
+services:
+  # 后端 API 服务
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: abd-cafe-backend
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+    env_file:
+      - .env
+    volumes:
+      # 持久化日志
+      - ./logs:/app/logs
+    networks:
+      - abd-cafe-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 40s
+
+  # MySQL 数据库（可选，如果使用 MySQL）
+  # mysql:
+  #   image: mysql:8.0
+  #   container_name: abd-cafe-mysql
+  #   restart: unless-stopped
+  #   ports:
+  #     - "3306:3306"
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+  #     MYSQL_DATABASE: ${DB_NAME}
+  #     MYSQL_USER: ${DB_USER}
+  #     MYSQL_PASSWORD: ${DB_PASSWORD}
+  #   volumes:
+  #     - mysql-data:/var/lib/mysql
+  #   networks:
+  #     - abd-cafe-network
+
+networks:
+  abd-cafe-network:
+    driver: bridge
+
+volumes:
+  # 持久化 MySQL 数据（如果使用）
+  # mysql-data:
