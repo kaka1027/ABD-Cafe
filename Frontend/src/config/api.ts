@@ -8,11 +8,11 @@ export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:30
 // API 端点
 export const API_ENDPOINTS = {
   auth: {
-    login: `${API_BASE_URL}/api/auth/login`,
-    register: `${API_BASE_URL}/api/auth/register`,
-    refresh: `${API_BASE_URL}/api/auth/refresh`,
-    me: `${API_BASE_URL}/api/auth/me`,
-    logout: `${API_BASE_URL}/api/auth/logout`
+    login: `${API_BASE_URL}/auth/login`,
+    register: `${API_BASE_URL}/auth/register`,
+    refresh: `${API_BASE_URL}/auth/refresh`,
+    me: `${API_BASE_URL}/auth/me`,
+    logout: `${API_BASE_URL}/auth/logout`
   },
   // 未来可以添加更多 API 端点
   // orders: { ... },
