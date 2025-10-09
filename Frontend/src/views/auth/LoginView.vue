@@ -325,6 +325,7 @@ import { ref, reactive, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/stores/user'
+import { API_ENDPOINTS } from '@/config/api'
 import {
   UserIcon,
   LockClosedIcon,
@@ -412,7 +413,7 @@ const handleLogin = async () => {
 
   try {
     // 调用真实的登录 API
-    const response = await fetch('http://localhost:3001/api/auth/login', {
+    const response = await fetch(API_ENDPOINTS.auth.login, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -472,7 +473,7 @@ const handleRegister = async () => {
 
   try {
     // 调用注册 API
-    const response = await fetch('http://localhost:3001/api/auth/register', {
+    const response = await fetch(API_ENDPOINTS.auth.register, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -493,7 +494,7 @@ const handleRegister = async () => {
       // 等待 1.5 秒后自动登录
       setTimeout(async () => {
         // 自动登录
-        const loginResponse = await fetch('http://localhost:3001/api/auth/login', {
+        const loginResponse = await fetch(API_ENDPOINTS.auth.login, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

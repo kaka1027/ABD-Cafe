@@ -1,8 +1,12 @@
 {
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/ABD-Cafe/:path*",
+      "destination": "/ABD-Cafe/:path*"
+    },
+    {
+      "source": "/ABD-Cafe",
+      "destination": "/ABD-Cafe/index.html"
     }
   ]
 }
