@@ -8,7 +8,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/ABD-Cafe/', // 设置基础路径
+  base: process.env.BASE_URL || '/',
   plugins: [
     vue(),
     vueJsx(),
