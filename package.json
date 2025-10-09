@@ -1,0 +1,17 @@
+{
+  "name": "ABD-Cafe",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "yarn@4.9.2",
+  "scripts": {
+    "dev": "concurrently --kill-others-on-fail \"yarn --cwd Frontend dev\" \"yarn --cwd Backend dev\"",
+    "dev:frontend": "yarn --cwd Frontend dev",
+    "dev:backend": "yarn --cwd Backend dev",
+    "build": "yarn --cwd Backend build && yarn --cwd Frontend build",
+    "start:backend": "yarn --cwd Backend start",
+    "preview:frontend": "yarn --cwd Frontend preview"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
