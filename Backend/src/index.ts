@@ -4,11 +4,14 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 
+// 导入数据库配置
+import { testConnection, initializeDatabase } from './config/database';
+
 // 导入路由
 import authRoutes from './routes/auth';
 
-// 导入模型（触发初始化）
-import UserModel from './models/UserModel';
+// 导入 MySQL 版本的用户模型
+import UserModel from './models/UserModelMySQL';
 
 // 加载环境变量
 dotenv.config();
@@ -52,8 +55,8 @@ app.use(express.json({ limit: '10mb' })); // 解析 JSON 请求体
 app.use(express.urlencoded({ extended: true, limit: '10mb' })); // 解析 URL 编码的请求体
 
 // 健康检查端点
-app.get('/health', (req, res) => {
-  const stats = UserModel.getStats();
+app.get('/health', async (req, res) => {
+  const stats = await UserModel.getStats();
   res.json({
     status: 'ok',
     message: 'ABD Cafe API Server is running',
@@ -64,21 +67,21 @@ app.get('/health', (req, res) => {
 });
 
 // API 路由
-app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
 
 // API 信息端点
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
   res.json({
     success: true,
     message: 'ABD Cafe API',
     version: '1.0.0',
     endpoints: {
       auth: {
-        login: 'POST /api/auth/login',
-        register: 'POST /api/auth/register',
-        refresh: 'POST /api/auth/refresh',
-        me: 'GET /api/auth/me',
-        logout: 'POST /api/auth/logout'
+        login: 'POST /auth/login',
+        register: 'POST /auth/register',
+        refresh: 'POST /auth/refresh',
+        me: 'GET /auth/me',
+        logout: 'POST /auth/logout'
       },
       health: 'GET /health'
     },
@@ -93,10 +96,10 @@ app.use('*', (req, res) => {
     message: `接口不存在: ${req.method} ${req.originalUrl}`,
     availableEndpoints: [
       'GET /health',
-      'GET /api',
-      'POST /api/auth/login',
-      'POST /api/auth/register',
-      'GET /api/auth/me'
+      'GET /',
+      'POST /auth/login',
+      'POST /auth/register',
+      'GET /auth/me'
     ]
   });
 });
@@ -141,15 +144,44 @@ process.on('SIGINT', () => {
   process.exit(0);
 });
 
+// 启动服务器（改为异步函数，以便初始化数据库）
+async function startServer() {
+  try {
+    // 1. 测试数据库连接
+    console.log('🔌 正在连接数据库...');
+    const isConnected = await testConnection();
+    if (!isConnected) {
+      console.error('❌ 数据库连接失败，服务器无法启动');
+      process.exit(1);
+    }
+
+    // 2. 初始化数据库表结构
+    console.log('📋 正在初始化数据库表结构...');
+    await initializeDatabase();
+
+    // 3. 初始化默认用户数据
+    console.log('👤 正在初始化默认用户...');
+    await UserModel.initializeDefaultUsers();
+
+    // 4. 启动 Express 服务器
+    app.listen(PORT, () => {
+      console.log('════════════════════════════════════════');
+      console.log('🚀 ABD Cafe API 服务器已启动');
+      console.log(`📍 地址: http://localhost:${PORT}`);
+      console.log(`🏥 健康检查: http://localhost:${PORT}/health`);
+      console.log(`🔑 认证接口: http://localhost:${PORT}/api/auth`);
+      console.log(`⚡ 环境: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`🗝️  JWT 密钥: ${process.env.JWT_SECRET ? '✅ 已配置' : '❌ 未配置'}`);
+      console.log(`🗄️  数据库: MySQL (abd_cafe_db)`);
+      console.log('════════════════════════════════════════');
+    });
+  } catch (error) {
+    console.error('❌ 服务器启动失败:', error);
+    process.exit(1);
+  }
+}
+
 // 启动服务器
-app.listen(PORT, () => {
-  console.log('🚀 ABD Cafe API 服务器已启动');
-  console.log(`📍 地址: http://localhost:${PORT}`);
-  console.log(`🏥 健康检查: http://localhost:${PORT}/health`);
-  console.log(`🔑 认证接口: http://localhost:${PORT}/api/auth`);
-  console.log(`⚡ 环境: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🗝️  JWT 密钥: ${process.env.JWT_SECRET ? '已配置' : '❌ 未配置'}`);
-  console.log('────────────────────────────────────────');
-});
+startServer();
 
 export default app;

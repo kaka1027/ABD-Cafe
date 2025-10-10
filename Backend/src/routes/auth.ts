@@ -17,19 +17,19 @@ const router = Router();
  */
 
 // 用户登录
-// POST /api/auth/login
+// POST /auth/login
 router.post('/login', [
   AuthMiddleware.rateLimit(10, 15 * 60 * 1000), // 15分钟内最多10次登录尝试
 ], AuthController.login);
 
 // 用户注册
-// POST /api/auth/register
+// POST /auth/register
 router.post('/register', [
   AuthMiddleware.rateLimit(5, 60 * 60 * 1000), // 1小时内最多5次注册尝试
 ], AuthController.register);
 
 // 刷新访问令牌
-// POST /api/auth/refresh
+// POST /auth/refresh
 router.post('/refresh', [
   AuthMiddleware.rateLimit(30, 15 * 60 * 1000), // 15分钟内最多30次刷新
 ], AuthController.refreshToken);
@@ -39,13 +39,13 @@ router.post('/refresh', [
  */
 
 // 获取当前用户信息
-// GET /api/auth/me
+// GET /auth/me
 router.get('/me', [
   AuthMiddleware.authenticate, // 需要有效的 JWT token
 ], AuthController.getCurrentUser);
 
 // 用户登出
-// POST /api/auth/logout
+// POST /auth/logout
 router.post('/logout', [
   AuthMiddleware.optionalAuthenticate, // 可选的身份验证（登录用户记录登出日志）
 ], AuthController.logout);
