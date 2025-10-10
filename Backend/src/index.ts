@@ -18,6 +18,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const API_BASE_PATH = process.env.API_BASE_PATH || '/api';
 
 // 中间件配置
 app.use(helmet()); // 安全头设置
@@ -55,7 +56,7 @@ app.use(express.json({ limit: '10mb' })); // 解析 JSON 请求体
 app.use(express.urlencoded({ extended: true, limit: '10mb' })); // 解析 URL 编码的请求体
 
 // 健康检查端点
-app.get('/health', async (req, res) => {
+app.get(API_BASE_PATH + '/health', async (req, res) => {
   const stats = await UserModel.getStats();
   res.json({
     status: 'ok',
@@ -67,23 +68,23 @@ app.get('/health', async (req, res) => {
 });
 
 // API 路由
-app.use('/auth', authRoutes);
+app.use(API_BASE_PATH + '/auth', authRoutes);
 
 // API 信息端点
-app.get('/', (req, res) => {
+app.get(API_BASE_PATH, (req, res) => {
   res.json({
     success: true,
     message: 'ABD Cafe API',
     version: '1.0.0',
     endpoints: {
       auth: {
-        login: 'POST /auth/login',
-        register: 'POST /auth/register',
-        refresh: 'POST /auth/refresh',
-        me: 'GET /auth/me',
-        logout: 'POST /auth/logout'
+        login: 'POST ' + API_BASE_PATH + '/auth/login',
+        register: 'POST ' + API_BASE_PATH + '/auth/register',
+        refresh: 'POST ' + API_BASE_PATH + '/auth/refresh',
+        me: 'GET ' + API_BASE_PATH + '/auth/me',
+        logout: 'POST ' + API_BASE_PATH + '/auth/logout'
       },
-      health: 'GET /health'
+      health: 'GET ' + API_BASE_PATH + '/health'
     },
     documentation: 'https://github.com/your-repo/api-docs'
   });
@@ -94,13 +95,6 @@ app.use('*', (req, res) => {
   res.status(404).json({
     success: false,
     message: `接口不存在: ${req.method} ${req.originalUrl}`,
-    availableEndpoints: [
-      'GET /health',
-      'GET /',
-      'POST /auth/login',
-      'POST /auth/register',
-      'GET /auth/me'
-    ]
   });
 });
 
