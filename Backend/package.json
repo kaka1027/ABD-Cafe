@@ -44,14 +44,17 @@
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.10.5",
     "@types/supertest": "^6.0.3",
+    "eslint": "^9.37.0",
     "inserturlparams": "^2.0.5",
     "jest": "^30.2.0",
     "jet-paths": "^1.1.0",
+    "jiti": "^2.6.1",
     "nodemon": "^3.0.2",
     "supertest": "^7.1.4",
     "ts-jest": "^29.4.4",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "typescript-eslint": "^8.46.0"
   },
   "packageManager": "yarn@4.10.1+sha512.45bcc0f26c64f59bbfff2a721fbc8226f7a0fe5da70c116cecb09bdfed2514a4d5a22484b75103070175cee5d7d4ad3719cd4be029c94ae5848b44346aefe2a8"
 }
