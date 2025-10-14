@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import RechargeController from '../controllers/RechargeController';
-import { authMiddleware } from '../middleware/auth';
+import { AuthMiddleware } from '../middleware/auth';
 
 const router = Router();
 
 // 所有充值接口都需要登录
-router.use(authMiddleware);
+router.use(AuthMiddleware.authenticate);
 
 /**
  * @route   POST /api/recharge/create
