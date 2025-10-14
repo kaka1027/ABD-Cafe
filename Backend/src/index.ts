@@ -9,6 +9,7 @@ import { testConnection, initializeDatabase } from './config/database';
 
 // 导入路由
 import authRoutes from './routes/auth';
+import rechargeRoutes from './routes/recharge';
 
 // 导入 MySQL 版本的用户模型
 import UserModel from './models/UserModelMySQL';
@@ -69,6 +70,7 @@ app.get(API_BASE_PATH + '/health', async (req, res) => {
 
 // API 路由
 app.use(API_BASE_PATH + '/auth', authRoutes);
+app.use(API_BASE_PATH + '/recharge', rechargeRoutes);
 
 // API 信息端点
 app.get(API_BASE_PATH, (req, res) => {
@@ -83,6 +85,14 @@ app.get(API_BASE_PATH, (req, res) => {
         refresh: 'POST ' + API_BASE_PATH + '/auth/refresh',
         me: 'GET ' + API_BASE_PATH + '/auth/me',
         logout: 'POST ' + API_BASE_PATH + '/auth/logout'
+      },
+      recharge: {
+        create: 'POST ' + API_BASE_PATH + '/recharge/create',
+        myOrders: 'GET ' + API_BASE_PATH + '/recharge/my-orders',
+        getOrder: 'GET ' + API_BASE_PATH + '/recharge/order/:orderNo',
+        allOrders: 'GET ' + API_BASE_PATH + '/recharge/all-orders (Admin)',
+        confirm: 'POST ' + API_BASE_PATH + '/recharge/confirm (Admin)',
+        stats: 'GET ' + API_BASE_PATH + '/recharge/stats (Admin)'
       },
       health: 'GET ' + API_BASE_PATH + '/health'
     },

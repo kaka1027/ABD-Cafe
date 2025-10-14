@@ -61,6 +61,29 @@ export async function initializeDatabase(): Promise<void> {
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
     `);
 
+    // 创建 recharge_orders 充值订单表
+    await connection.query(`
+      CREATE TABLE IF NOT EXISTS recharge_orders (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        order_no VARCHAR(50) UNIQUE NOT NULL COMMENT '订单号',
+        user_id INT NOT NULL COMMENT '用户ID',
+        amount DECIMAL(10, 2) NOT NULL COMMENT '充值金额',
+        order_content TEXT COMMENT '订单内容描述',
+        payment_method VARCHAR(50) DEFAULT 'wechat' COMMENT '支付方式',
+        remark TEXT COMMENT '用户备注（付款时填写的备注）',
+        admin_note TEXT COMMENT '管理员备注',
+        is_confirmed BOOLEAN DEFAULT FALSE COMMENT '是否已确认',
+        confirmed_at TIMESTAMP NULL COMMENT '确认时间',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+        INDEX idx_order_no (order_no),
+        INDEX idx_user_id (user_id),
+        INDEX idx_is_confirmed (is_confirmed),
+        INDEX idx_created_at (created_at),
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    `);
+
     console.log('✅ 数据库表结构初始化成功');
     connection.release();
   } catch (error) {
