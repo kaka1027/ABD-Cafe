@@ -12,7 +12,7 @@ import { User, CreateUserDto, UserRole, UserResponse } from '../types/user';
 class UserModel {
   // 内存中的用户数据存储
   private users: User[] = [];
-  private nextId: number = 1;
+  private nextId = 1;
 
   constructor() {
     // 初始化一些测试用户
@@ -30,22 +30,22 @@ class UserModel {
         email: 'admin@abdcafe.com',
         password: 'admin123',
         role: UserRole.ADMIN,
-        remainingQuota: 1000.00
+        remainingQuota: 1000.00,
       },
       {
         username: 'user1',
         email: 'user1@abdcafe.com',
         password: 'user123',
         role: UserRole.USER,
-        remainingQuota: 85.50
+        remainingQuota: 85.50,
       },
       {
         username: 'test',
         email: 'test@abdcafe.com',
         password: '123456',
         role: UserRole.USER,
-        remainingQuota: 50.00
-      }
+        remainingQuota: 50.00,
+      },
     ];
 
     for (const userData of defaultUsers) {
@@ -92,7 +92,7 @@ class UserModel {
       remainingQuota: userData.remainingQuota || 100.00,
       createdAt: new Date(),
       updatedAt: new Date(),
-      isActive: true
+      isActive: true,
     };
 
     // 生成头像URL（使用 UI Avatars 服务）
@@ -187,7 +187,7 @@ class UserModel {
       totalUsers: this.users.length,
       activeUsers: this.users.filter(u => u.isActive).length,
       adminUsers: this.users.filter(u => u.role === UserRole.ADMIN).length,
-      regularUsers: this.users.filter(u => u.role === UserRole.USER).length
+      regularUsers: this.users.filter(u => u.role === UserRole.USER).length,
     };
   }
 }

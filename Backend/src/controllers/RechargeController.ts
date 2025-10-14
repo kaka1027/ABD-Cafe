@@ -17,7 +17,7 @@ class RechargeController {
       if (!userId) {
         return res.status(401).json({
           success: false,
-          message: '请先登录'
+          message: '请先登录',
         });
       }
 
@@ -27,7 +27,7 @@ class RechargeController {
       if (!orderData.amount || orderData.amount <= 0) {
         return res.status(400).json({
           success: false,
-          message: '充值金额必须大于0'
+          message: '充值金额必须大于0',
         });
       }
 
@@ -37,13 +37,13 @@ class RechargeController {
       res.json({
         success: true,
         message: '充值订单创建成功',
-        data: order
+        data: order,
       });
     } catch (error: any) {
       console.error('创建充值订单失败:', error);
       res.status(500).json({
         success: false,
-        message: '创建订单失败: ' + error.message
+        message: '创建订单失败: ' + error.message,
       });
     }
   }
@@ -59,7 +59,7 @@ class RechargeController {
       if (!userId) {
         return res.status(401).json({
           success: false,
-          message: '请先登录'
+          message: '请先登录',
         });
       }
 
@@ -67,13 +67,13 @@ class RechargeController {
 
       res.json({
         success: true,
-        data: orders
+        data: orders,
       });
     } catch (error: any) {
       console.error('获取订单列表失败:', error);
       res.status(500).json({
         success: false,
-        message: '获取订单列表失败: ' + error.message
+        message: '获取订单列表失败: ' + error.message,
       });
     }
   }
@@ -90,7 +90,7 @@ class RechargeController {
       if (!userId) {
         return res.status(401).json({
           success: false,
-          message: '请先登录'
+          message: '请先登录',
         });
       }
 
@@ -99,7 +99,7 @@ class RechargeController {
       if (!order) {
         return res.status(404).json({
           success: false,
-          message: '订单不存在'
+          message: '订单不存在',
         });
       }
 
@@ -108,19 +108,19 @@ class RechargeController {
       if (userRole !== 'admin' && order.userId !== userId) {
         return res.status(403).json({
           success: false,
-          message: '无权查看此订单'
+          message: '无权查看此订单',
         });
       }
 
       res.json({
         success: true,
-        data: order
+        data: order,
       });
     } catch (error: any) {
       console.error('查询订单失败:', error);
       res.status(500).json({
         success: false,
-        message: '查询订单失败: ' + error.message
+        message: '查询订单失败: ' + error.message,
       });
     }
   }
@@ -136,30 +136,30 @@ class RechargeController {
       if (userRole !== 'admin') {
         return res.status(403).json({
           success: false,
-          message: '无权访问'
+          message: '无权访问',
         });
       }
 
       const query = {
         isConfirmed: req.query.isConfirmed === 'true' ? true :
-                     req.query.isConfirmed === 'false' ? false : undefined,
+          req.query.isConfirmed === 'false' ? false : undefined,
         startDate: req.query.startDate as string,
         endDate: req.query.endDate as string,
         page: req.query.page ? parseInt(req.query.page as string) : 1,
-        pageSize: req.query.pageSize ? parseInt(req.query.pageSize as string) : 20
+        pageSize: req.query.pageSize ? parseInt(req.query.pageSize as string) : 20,
       };
 
       const result = await RechargeOrderModel.findAll(query);
 
       res.json({
         success: true,
-        data: result
+        data: result,
       });
     } catch (error: any) {
       console.error('获取订单列表失败:', error);
       res.status(500).json({
         success: false,
-        message: '获取订单列表失败: ' + error.message
+        message: '获取订单列表失败: ' + error.message,
       });
     }
   }
@@ -175,7 +175,7 @@ class RechargeController {
       if (userRole !== 'admin') {
         return res.status(403).json({
           success: false,
-          message: '无权操作'
+          message: '无权操作',
         });
       }
 
@@ -184,7 +184,7 @@ class RechargeController {
       if (!confirmData.orderNo) {
         return res.status(400).json({
           success: false,
-          message: '订单号不能为空'
+          message: '订单号不能为空',
         });
       }
 
@@ -192,13 +192,13 @@ class RechargeController {
 
       res.json({
         success: true,
-        message: '订单确认成功，用户余额已增加'
+        message: '订单确认成功，用户余额已增加',
       });
     } catch (error: any) {
       console.error('确认订单失败:', error);
       res.status(500).json({
         success: false,
-        message: '确认订单失败: ' + error.message
+        message: '确认订单失败: ' + error.message,
       });
     }
   }
@@ -214,7 +214,7 @@ class RechargeController {
       if (userRole !== 'admin') {
         return res.status(403).json({
           success: false,
-          message: '无权访问'
+          message: '无权访问',
         });
       }
 
@@ -222,13 +222,13 @@ class RechargeController {
 
       res.json({
         success: true,
-        data: stats
+        data: stats,
       });
     } catch (error: any) {
       console.error('获取统计信息失败:', error);
       res.status(500).json({
         success: false,
-        message: '获取统计信息失败: ' + error.message
+        message: '获取统计信息失败: ' + error.message,
       });
     }
   }

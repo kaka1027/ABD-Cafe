@@ -16,7 +16,7 @@ export class EncryptionUtils {
    * @param saltRounds 加密轮数，默认10
    * @returns 加密后的密码hash
    */
-  static async hashPassword(password: string, saltRounds: number = 10): Promise<string> {
+  static async hashPassword(password: string, saltRounds = 10): Promise<string> {
     try {
       // 硬代码说明：saltRounds=10 大约需要 65ms 的计算时间
       // 数值越高越安全，但计算时间也越长
@@ -46,7 +46,7 @@ export class EncryptionUtils {
    * @param rounds 轮数
    * @returns 盐值
    */
-  static async generateSalt(rounds: number = 10): Promise<string> {
+  static async generateSalt(rounds = 10): Promise<string> {
     try {
       return await bcrypt.genSalt(rounds);
     } catch (error) {
@@ -60,9 +60,9 @@ export class EncryptionUtils {
    * @returns 密码强度检查结果
    */
   static validatePasswordStrength(password: string): {
-    isValid: boolean;
-    errors: string[];
-    score: number; // 0-100
+    isValid: boolean,
+    errors: string[],
+    score: number, // 0-100
   } {
     const errors: string[] = [];
     let score = 0;
@@ -101,7 +101,7 @@ export class EncryptionUtils {
     return {
       isValid: errors.length === 0 && score >= 50,
       errors,
-      score: Math.min(score, 100)
+      score: Math.min(score, 100),
     };
   }
 
@@ -111,7 +111,7 @@ export class EncryptionUtils {
    * @param includeSpecialChars 是否包含特殊字符
    * @returns 随机密码
    */
-  static generateRandomPassword(length: number = 12, includeSpecialChars: boolean = true): string {
+  static generateRandomPassword(length = 12, includeSpecialChars = true): string {
     const lowercase = 'abcdefghijklmnopqrstuvwxyz';
     const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const numbers = '0123456789';

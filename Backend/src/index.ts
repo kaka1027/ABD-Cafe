@@ -35,7 +35,7 @@ const allowedOrigins = [
   'http://127.0.0.1:5174',
   'http://127.0.0.1:5175',
   // 生产环境（从环境变量读取）
-  process.env.FRONTEND_URL
+  process.env.FRONTEND_URL,
 ].filter(Boolean); // 过滤掉 undefined
 
 app.use(cors({
@@ -43,14 +43,14 @@ app.use(cors({
     // 允许没有 origin 的请求（比如移动应用、Postman）
     if (!origin) return callback(null, true);
 
-    if (allowedOrigins.indexOf(origin) !== -1) {
+    if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       console.warn(`⚠️  CORS 拒绝来自 ${origin} 的请求`);
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true // 允许携带 cookies
+  credentials: true, // 允许携带 cookies
 }));
 
 app.use(express.json({ limit: '10mb' })); // 解析 JSON 请求体
@@ -64,7 +64,7 @@ app.get(API_BASE_PATH + '/health', async (req, res) => {
     message: 'ABD Cafe API Server is running',
     timestamp: new Date().toISOString(),
     version: '1.0.0',
-    userStats: stats
+    userStats: stats,
   });
 });
 
@@ -84,7 +84,7 @@ app.get(API_BASE_PATH, (req, res) => {
         register: 'POST ' + API_BASE_PATH + '/auth/register',
         refresh: 'POST ' + API_BASE_PATH + '/auth/refresh',
         me: 'GET ' + API_BASE_PATH + '/auth/me',
-        logout: 'POST ' + API_BASE_PATH + '/auth/logout'
+        logout: 'POST ' + API_BASE_PATH + '/auth/logout',
       },
       recharge: {
         create: 'POST ' + API_BASE_PATH + '/recharge/create',
@@ -92,11 +92,11 @@ app.get(API_BASE_PATH, (req, res) => {
         getOrder: 'GET ' + API_BASE_PATH + '/recharge/order/:orderNo',
         allOrders: 'GET ' + API_BASE_PATH + '/recharge/all-orders (Admin)',
         confirm: 'POST ' + API_BASE_PATH + '/recharge/confirm (Admin)',
-        stats: 'GET ' + API_BASE_PATH + '/recharge/stats (Admin)'
+        stats: 'GET ' + API_BASE_PATH + '/recharge/stats (Admin)',
       },
-      health: 'GET ' + API_BASE_PATH + '/health'
+      health: 'GET ' + API_BASE_PATH + '/health',
     },
-    documentation: 'https://github.com/your-repo/api-docs'
+    documentation: 'https://github.com/your-repo/api-docs',
   });
 });
 
@@ -132,8 +132,8 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
     message,
     ...(process.env.NODE_ENV === 'development' && {
       error: err.message,
-      stack: err.stack
-    })
+      stack: err.stack,
+    }),
   });
 });
 
@@ -176,7 +176,7 @@ async function startServer() {
       console.log(`🔑 认证接口: http://localhost:${PORT}/api/auth`);
       console.log(`⚡ 环境: ${process.env.NODE_ENV || 'development'}`);
       console.log(`🗝️  JWT 密钥: ${process.env.JWT_SECRET ? '✅ 已配置' : '❌ 未配置'}`);
-      console.log(`🗄️  数据库: MySQL (abd_cafe_db)`);
+      console.log('🗄️  数据库: MySQL (abd_cafe_db)');
       console.log('════════════════════════════════════════');
     });
   } catch (error) {

@@ -32,14 +32,14 @@ export class JwtUtils {
    */
   static generateAccessToken(
     payload: Omit<JwtPayload, 'iat' | 'exp'>,
-    expiresIn: string = process.env.JWT_EXPIRES_IN || '7d'
+    expiresIn: string = process.env.JWT_EXPIRES_IN || '7d',
   ): string {
     try {
       // 硬代码说明：使用类型断言解决类型问题
       const token = jwt.sign(
         payload,
         this.getSecretKey(),
-        { expiresIn } as any
+        { expiresIn } as any,
       );
 
       return token;
@@ -89,10 +89,10 @@ export class JwtUtils {
    * @param thresholdMinutes 阈值分钟数，默认30分钟
    * @returns 是否即将过期
    */
-  static isTokenExpiringSoon(token: string, thresholdMinutes: number = 30): boolean {
+  static isTokenExpiringSoon(token: string, thresholdMinutes = 30): boolean {
     try {
       const decoded = this.decodeToken(token);
-      if (!decoded || !decoded.exp) {
+      if (!decoded?.exp) {
         return true;
       }
 
@@ -111,14 +111,14 @@ export class JwtUtils {
    * @returns 刷新令牌
    */
   static generateRefreshToken(
-    payload: Omit<JwtPayload, 'iat' | 'exp'>
+    payload: Omit<JwtPayload, 'iat' | 'exp'>,
   ): string {
     try {
       // 硬代码说明：刷新令牌有效期更长，用于获取新的访问令牌
       const token = jwt.sign(
         { ...payload, type: 'refresh' },
         this.getSecretKey(),
-        { expiresIn: '30d' } as any
+        { expiresIn: '30d' } as any,
       );
 
       return token;
@@ -178,7 +178,7 @@ export class JwtUtils {
   static getTokenRemainingTime(token: string): number {
     try {
       const decoded = this.decodeToken(token);
-      if (!decoded || !decoded.exp) {
+      if (!decoded?.exp) {
         return -1;
       }
 

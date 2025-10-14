@@ -40,7 +40,7 @@ export class AuthMiddleware {
       if (!token) {
         res.status(401).json({
           success: false,
-          message: '缺少访问令牌'
+          message: '缺少访问令牌',
         });
         return;
       }
@@ -50,10 +50,10 @@ export class AuthMiddleware {
 
       // 检查用户是否还存在且激活
       const user = await UserModel.findById(decoded.id);
-      if (!user || !user.isActive) {
+      if (!user?.isActive) {
         res.status(401).json({
           success: false,
-          message: '用户不存在或已被禁用'
+          message: '用户不存在或已被禁用',
         });
         return;
       }
@@ -70,7 +70,7 @@ export class AuthMiddleware {
       console.error('身份验证失败:', error);
       res.status(401).json({
         success: false,
-        message: error instanceof Error ? error.message : '身份验证失败'
+        message: error instanceof Error ? error.message : '身份验证失败',
       });
     }
   };
@@ -120,7 +120,7 @@ export class AuthMiddleware {
     if (!req.user) {
       res.status(401).json({
         success: false,
-        message: '需要身份验证'
+        message: '需要身份验证',
       });
       return;
     }
@@ -128,7 +128,7 @@ export class AuthMiddleware {
     if (req.user.role !== UserRole.ADMIN) {
       res.status(403).json({
         success: false,
-        message: '需要管理员权限'
+        message: '需要管理员权限',
       });
       return;
     }
@@ -146,7 +146,7 @@ export class AuthMiddleware {
       if (!req.user) {
         res.status(401).json({
           success: false,
-          message: '需要身份验证'
+          message: '需要身份验证',
         });
         return;
       }
@@ -154,7 +154,7 @@ export class AuthMiddleware {
       if (!allowedRoles.includes(req.user.role)) {
         res.status(403).json({
           success: false,
-          message: '权限不足'
+          message: '权限不足',
         });
         return;
       }
@@ -167,7 +167,7 @@ export class AuthMiddleware {
    * 速率限制中间件（简单实现）
    * 硬代码说明：生产环境应使用 Redis 存储
    */
-  private static requestCounts: Map<string, { count: number; resetTime: number }> = new Map();
+  private static requestCounts = new Map<string, { count: number, resetTime: number }>();
 
   /**
    * 简单的速率限制
@@ -175,7 +175,7 @@ export class AuthMiddleware {
    * @param windowMs 时间窗口（毫秒）
    * @returns 中间件函数
    */
-  static rateLimit = (maxRequests: number = 100, windowMs: number = 15 * 60 * 1000) => {
+  static rateLimit = (maxRequests = 100, windowMs: number = 15 * 60 * 1000) => {
     return (req: Request, res: Response, next: NextFunction): void => {
       const clientId = req.ip || 'unknown';
       const now = Date.now();
@@ -186,7 +186,7 @@ export class AuthMiddleware {
       if (!clientData || now > clientData.resetTime) {
         clientData = {
           count: 0,
-          resetTime: now + windowMs
+          resetTime: now + windowMs,
         };
       }
 
@@ -198,7 +198,7 @@ export class AuthMiddleware {
         res.status(429).json({
           success: false,
           message: '请求过于频繁，请稍后再试',
-          retryAfter: Math.ceil((clientData.resetTime - now) / 1000)
+          retryAfter: Math.ceil((clientData.resetTime - now) / 1000),
         });
         return;
       }

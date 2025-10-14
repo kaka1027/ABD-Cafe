@@ -35,6 +35,9 @@
     "mysql2": "^3.15.2"
   },
   "devDependencies": {
+    "@eslint/js": "^9.37.0",
+    "@stylistic/eslint-plugin-js": "^4.4.1",
+    "@stylistic/eslint-plugin-ts": "^4.4.1",
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
@@ -45,6 +48,7 @@
     "@types/node": "^20.10.5",
     "@types/supertest": "^6.0.3",
     "eslint": "^9.37.0",
+    "eslint-plugin-n": "^17.23.1",
     "inserturlparams": "^2.0.5",
     "jest": "^30.2.0",
     "jet-paths": "^1.1.0",

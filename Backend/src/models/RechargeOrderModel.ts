@@ -5,7 +5,7 @@ import {
   CreateRechargeOrderDto,
   RechargeOrderResponse,
   ConfirmRechargeOrderDto,
-  RechargeOrderQuery
+  RechargeOrderQuery,
 } from '../types/recharge';
 
 /**
@@ -32,7 +32,7 @@ class RechargeOrderModel {
    */
   async createOrder(
     userId: number,
-    orderData: CreateRechargeOrderDto
+    orderData: CreateRechargeOrderDto,
   ): Promise<RechargeOrderResponse> {
     try {
       const orderNo = this.generateOrderNo();
@@ -47,8 +47,8 @@ class RechargeOrderModel {
           userId,
           orderData.amount,
           orderData.orderContent || `充值 ¥${orderData.amount}`,
-          paymentMethod
-        ]
+          paymentMethod,
+        ],
       );
 
       // 查询新创建的订单
@@ -57,7 +57,7 @@ class RechargeOrderModel {
          FROM recharge_orders ro
          LEFT JOIN users u ON ro.user_id = u.id
          WHERE ro.id = ?`,
-        [result.insertId]
+        [result.insertId],
       );
 
       return this.rowToOrderResponse(orders[0]);
@@ -79,7 +79,7 @@ class RechargeOrderModel {
          FROM recharge_orders ro
          LEFT JOIN users u ON ro.user_id = u.id
          WHERE ro.order_no = ?`,
-        [orderNo]
+        [orderNo],
       );
 
       if (orders.length === 0) {
@@ -106,7 +106,7 @@ class RechargeOrderModel {
          LEFT JOIN users u ON ro.user_id = u.id
          WHERE ro.user_id = ?
          ORDER BY ro.created_at DESC`,
-        [userId]
+        [userId],
       );
 
       return orders.map(row => this.rowToOrderResponse(row));
@@ -125,7 +125,7 @@ class RechargeOrderModel {
     orders: RechargeOrderResponse[],
     total: number,
     page: number,
-    pageSize: number
+    pageSize: number,
   }> {
     try {
       let sql = `SELECT ro.*, u.username, u.email
@@ -158,7 +158,7 @@ class RechargeOrderModel {
       // 获取总数
       const countSql = sql.replace(
         'SELECT ro.*, u.username, u.email',
-        'SELECT COUNT(*) as total'
+        'SELECT COUNT(*) as total',
       );
       const [countResult] = await pool.query<RowDataPacket[]>(countSql, params);
       const total = countResult[0].total;
@@ -177,7 +177,7 @@ class RechargeOrderModel {
         orders: orders.map(row => this.rowToOrderResponse(row)),
         total,
         page,
-        pageSize
+        pageSize,
       };
     } catch (error) {
       console.error('查询订单列表失败:', error);
@@ -198,7 +198,7 @@ class RechargeOrderModel {
       // 1. 查询订单
       const [orders] = await connection.query<RowDataPacket[]>(
         'SELECT * FROM recharge_orders WHERE order_no = ? FOR UPDATE',
-        [confirmData.orderNo]
+        [confirmData.orderNo],
       );
 
       if (orders.length === 0) {
@@ -219,7 +219,7 @@ class RechargeOrderModel {
              admin_note = ?,
              updated_at = NOW()
          WHERE order_no = ?`,
-        [confirmData.adminNote || '', confirmData.orderNo]
+        [confirmData.adminNote || '', confirmData.orderNo],
       );
 
       // 3. 增加用户余额
@@ -228,7 +228,7 @@ class RechargeOrderModel {
          SET remaining_quota = remaining_quota + ?,
              updated_at = NOW()
          WHERE id = ?`,
-        [order.amount, order.user_id]
+        [order.amount, order.user_id],
       );
 
       await connection.commit();
@@ -249,23 +249,23 @@ class RechargeOrderModel {
   async getStats() {
     try {
       const [total] = await pool.query<RowDataPacket[]>(
-        'SELECT COUNT(*) as count FROM recharge_orders'
+        'SELECT COUNT(*) as count FROM recharge_orders',
       );
       const [confirmed] = await pool.query<RowDataPacket[]>(
-        'SELECT COUNT(*) as count FROM recharge_orders WHERE is_confirmed = TRUE'
+        'SELECT COUNT(*) as count FROM recharge_orders WHERE is_confirmed = TRUE',
       );
       const [pending] = await pool.query<RowDataPacket[]>(
-        'SELECT COUNT(*) as count FROM recharge_orders WHERE is_confirmed = FALSE'
+        'SELECT COUNT(*) as count FROM recharge_orders WHERE is_confirmed = FALSE',
       );
       const [totalAmount] = await pool.query<RowDataPacket[]>(
-        'SELECT SUM(amount) as sum FROM recharge_orders WHERE is_confirmed = TRUE'
+        'SELECT SUM(amount) as sum FROM recharge_orders WHERE is_confirmed = TRUE',
       );
 
       return {
         totalOrders: total[0].count,
         confirmedOrders: confirmed[0].count,
         pendingOrders: pending[0].count,
-        totalAmount: totalAmount[0].sum || 0
+        totalAmount: totalAmount[0].sum || 0,
       };
     } catch (error) {
       console.error('获取订单统计失败:', error);
@@ -273,7 +273,7 @@ class RechargeOrderModel {
         totalOrders: 0,
         confirmedOrders: 0,
         pendingOrders: 0,
-        totalAmount: 0
+        totalAmount: 0,
       };
     }
   }
@@ -296,7 +296,7 @@ class RechargeOrderModel {
       createdAt: row.created_at,
       updatedAt: row.updated_at,
       username: row.username,
-      email: row.email
+      email: row.email,
     };
   }
 }

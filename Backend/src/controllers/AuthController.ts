@@ -28,7 +28,7 @@ export class AuthController {
       if (!username || !password) {
         res.status(400).json({
           success: false,
-          message: '用户名和密码不能为空'
+          message: '用户名和密码不能为空',
         });
         return;
       }
@@ -39,7 +39,7 @@ export class AuthController {
         // 硬代码说明：不明确指出是用户名还是密码错误，防止用户名枚举攻击
         res.status(401).json({
           success: false,
-          message: '用户名或密码错误'
+          message: '用户名或密码错误',
         });
         return;
       }
@@ -49,7 +49,7 @@ export class AuthController {
       if (!isPasswordValid) {
         res.status(401).json({
           success: false,
-          message: '用户名或密码错误'
+          message: '用户名或密码错误',
         });
         return;
       }
@@ -58,7 +58,7 @@ export class AuthController {
       if (!user.isActive) {
         res.status(401).json({
           success: false,
-          message: '账户已被禁用，请联系管理员'
+          message: '账户已被禁用，请联系管理员',
         });
         return;
       }
@@ -67,7 +67,7 @@ export class AuthController {
       const tokenPayload = {
         id: user.id,
         username: user.username,
-        role: user.role
+        role: user.role,
       };
 
       const accessToken = JwtUtils.generateAccessToken(tokenPayload);
@@ -85,7 +85,7 @@ export class AuthController {
         avatar: user.avatar,
         remainingQuota: user.remainingQuota,
         createdAt: user.createdAt,
-        lastLoginAt: new Date() // 使用当前时间作为最后登录时间
+        lastLoginAt: new Date(), // 使用当前时间作为最后登录时间
       };
 
       // 记录登录日志
@@ -99,15 +99,15 @@ export class AuthController {
           user: userResponse,
           token: accessToken,
           refreshToken: refreshToken,
-          expiresIn: process.env.JWT_EXPIRES_IN || '7d'
-        }
+          expiresIn: process.env.JWT_EXPIRES_IN || '7d',
+        },
       });
 
     } catch (error) {
       console.error('登录处理错误:', error);
       res.status(500).json({
         success: false,
-        message: '服务器内部错误'
+        message: '服务器内部错误',
       });
     }
   };
@@ -126,7 +126,7 @@ export class AuthController {
       if (!username || !email || !password) {
         res.status(400).json({
           success: false,
-          message: '用户名、邮箱和密码不能为空'
+          message: '用户名、邮箱和密码不能为空',
         });
         return;
       }
@@ -137,7 +137,7 @@ export class AuthController {
         res.status(400).json({
           success: false,
           message: '密码强度不够',
-          errors: passwordValidation.errors
+          errors: passwordValidation.errors,
         });
         return;
       }
@@ -147,7 +147,7 @@ export class AuthController {
       if (!emailRegex.test(email)) {
         res.status(400).json({
           success: false,
-          message: '邮箱格式不正确'
+          message: '邮箱格式不正确',
         });
         return;
       }
@@ -157,7 +157,7 @@ export class AuthController {
       if (!usernameRegex.test(username)) {
         res.status(400).json({
           success: false,
-          message: '用户名只能包含字母、数字、下划线，长度3-20位'
+          message: '用户名只能包含字母、数字、下划线，长度3-20位',
         });
         return;
       }
@@ -168,7 +168,7 @@ export class AuthController {
         email,
         password,
         role: role || UserRole.USER, // 默认为普通用户
-        remainingQuota: 100.00 // 默认额度
+        remainingQuota: 100.00, // 默认额度
       };
 
       // 创建用户
@@ -185,9 +185,9 @@ export class AuthController {
             id: newUser.id,
             username: newUser.username,
             email: newUser.email,
-            role: newUser.role
-          }
-        }
+            role: newUser.role,
+          },
+        },
       });
 
     } catch (error) {
@@ -198,7 +198,7 @@ export class AuthController {
         if (error.message === '用户名已存在' || error.message === '邮箱已存在') {
           res.status(409).json({
             success: false,
-            message: error.message
+            message: error.message,
           });
           return;
         }
@@ -206,7 +206,7 @@ export class AuthController {
 
       res.status(500).json({
         success: false,
-        message: '服务器内部错误'
+        message: '服务器内部错误',
       });
     }
   };
@@ -224,7 +224,7 @@ export class AuthController {
       if (!refreshToken) {
         res.status(400).json({
           success: false,
-          message: '缺少刷新令牌'
+          message: '缺少刷新令牌',
         });
         return;
       }
@@ -234,10 +234,10 @@ export class AuthController {
 
       // 检查用户是否仍然存在且激活
       const user = await UserModel.findById(decoded.id);
-      if (!user || !user.isActive) {
+      if (!user?.isActive) {
         res.status(401).json({
           success: false,
-          message: '用户不存在或已被禁用'
+          message: '用户不存在或已被禁用',
         });
         return;
       }
@@ -246,7 +246,7 @@ export class AuthController {
       const tokenPayload = {
         id: user.id,
         username: user.username,
-        role: user.role
+        role: user.role,
       };
 
       const newAccessToken = JwtUtils.generateAccessToken(tokenPayload);
@@ -256,15 +256,15 @@ export class AuthController {
         message: '令牌刷新成功',
         data: {
           token: newAccessToken,
-          expiresIn: process.env.JWT_EXPIRES_IN || '7d'
-        }
+          expiresIn: process.env.JWT_EXPIRES_IN || '7d',
+        },
       });
 
     } catch (error) {
       console.error('令牌刷新错误:', error);
       res.status(401).json({
         success: false,
-        message: error instanceof Error ? error.message : '令牌刷新失败'
+        message: error instanceof Error ? error.message : '令牌刷新失败',
       });
     }
   };
@@ -281,17 +281,17 @@ export class AuthController {
       if (!req.user) {
         res.status(401).json({
           success: false,
-          message: '未认证用户'
+          message: '未认证用户',
         });
         return;
       }
 
       // 从数据库获取最新的用户信息
       const user = await UserModel.findById(req.user.id);
-      if (!user || !user.isActive) {
+      if (!user?.isActive) {
         res.status(404).json({
           success: false,
-          message: '用户不存在'
+          message: '用户不存在',
         });
         return;
       }
@@ -304,22 +304,22 @@ export class AuthController {
         avatar: user.avatar,
         remainingQuota: user.remainingQuota,
         createdAt: user.createdAt,
-        lastLoginAt: user.lastLoginAt
+        lastLoginAt: user.lastLoginAt,
       };
 
       res.status(200).json({
         success: true,
         message: '获取用户信息成功',
         data: {
-          user: userResponse
-        }
+          user: userResponse,
+        },
       });
 
     } catch (error) {
       console.error('获取用户信息错误:', error);
       res.status(500).json({
         success: false,
-        message: '服务器内部错误'
+        message: '服务器内部错误',
       });
     }
   };
@@ -342,14 +342,14 @@ export class AuthController {
 
       res.status(200).json({
         success: true,
-        message: '登出成功'
+        message: '登出成功',
       });
 
     } catch (error) {
       console.error('登出处理错误:', error);
       res.status(500).json({
         success: false,
-        message: '服务器内部错误'
+        message: '服务器内部错误',
       });
     }
   };

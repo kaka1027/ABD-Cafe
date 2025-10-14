@@ -67,13 +67,13 @@ if (process.env.NODE_ENV === 'development') {
         data: {
           users,
           stats,
-          env: process.env.NODE_ENV
-        }
+          env: process.env.NODE_ENV,
+        },
       });
     } catch (error) {
       res.status(500).json({
         success: false,
-        message: '获取调试信息失败'
+        message: '获取调试信息失败',
       });
     }
   });
@@ -89,7 +89,7 @@ if (process.env.NODE_ENV === 'development') {
       if (!user) {
         res.status(404).json({
           success: false,
-          message: '用户不存在'
+          message: '用户不存在',
         });
         return;
       }
@@ -97,7 +97,7 @@ if (process.env.NODE_ENV === 'development') {
       const tokenPayload = {
         id: user.id,
         username: user.username,
-        role: user.role
+        role: user.role,
       };
 
       const token = JwtUtils.generateAccessToken(tokenPayload);
@@ -110,14 +110,14 @@ if (process.env.NODE_ENV === 'development') {
           user: {
             id: user.id,
             username: user.username,
-            role: user.role
-          }
-        }
+            role: user.role,
+          },
+        },
       });
     } catch (error) {
       res.status(500).json({
         success: false,
-        message: '生成测试令牌失败'
+        message: '生成测试令牌失败',
       });
     }
   });

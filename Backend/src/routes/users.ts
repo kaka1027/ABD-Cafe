@@ -14,20 +14,20 @@ const router = Router();
  */
 router.get('/', [
   AuthMiddleware.authenticate,
-  AuthMiddleware.requireAdmin
+  AuthMiddleware.requireAdmin,
 ], async (req: Request, res: Response) => {
   try {
     const users = await UserModel.getAllUsers();
 
     res.json({
       success: true,
-      data: users
+      data: users,
     });
   } catch (error) {
     console.error('获取用户列表失败:', error);
     res.status(500).json({
       success: false,
-      message: '获取用户列表失败'
+      message: '获取用户列表失败',
     });
   }
 });
@@ -38,7 +38,7 @@ router.get('/', [
  */
 router.get('/:id', [
   AuthMiddleware.authenticate,
-  AuthMiddleware.requireAdmin
+  AuthMiddleware.requireAdmin,
 ], async (req: Request, res: Response) => {
   try {
     const userId = parseInt(req.params.id);
@@ -47,7 +47,7 @@ router.get('/:id', [
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: '用户不存在'
+        message: '用户不存在',
       });
     }
 
@@ -56,13 +56,13 @@ router.get('/:id', [
 
     res.json({
       success: true,
-      data: userWithoutPassword
+      data: userWithoutPassword,
     });
   } catch (error) {
     console.error('获取用户信息失败:', error);
     res.status(500).json({
       success: false,
-      message: '获取用户信息失败'
+      message: '获取用户信息失败',
     });
   }
 });
@@ -73,7 +73,7 @@ router.get('/:id', [
  */
 router.patch('/:id/quota', [
   AuthMiddleware.authenticate,
-  AuthMiddleware.requireAdmin
+  AuthMiddleware.requireAdmin,
 ], async (req: Request, res: Response) => {
   try {
     const userId = parseInt(req.params.id);
@@ -82,7 +82,7 @@ router.patch('/:id/quota', [
     if (typeof quota !== 'number' || quota < 0) {
       return res.status(400).json({
         success: false,
-        message: '额度必须是大于等于0的数字'
+        message: '额度必须是大于等于0的数字',
       });
     }
 
@@ -91,13 +91,13 @@ router.patch('/:id/quota', [
     res.json({
       success: true,
       message: '额度更新成功',
-      data: { quota }
+      data: { quota },
     });
   } catch (error) {
     console.error('更新用户额度失败:', error);
     res.status(500).json({
       success: false,
-      message: '更新用户额度失败'
+      message: '更新用户额度失败',
     });
   }
 });
@@ -108,7 +108,7 @@ router.patch('/:id/quota', [
  */
 router.patch('/:id', [
   AuthMiddleware.authenticate,
-  AuthMiddleware.requireAdmin
+  AuthMiddleware.requireAdmin,
 ], async (req: Request, res: Response) => {
   try {
     const userId = parseInt(req.params.id);
@@ -124,7 +124,7 @@ router.patch('/:id', [
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: '用户不存在'
+        message: '用户不存在',
       });
     }
 
@@ -136,13 +136,13 @@ router.patch('/:id', [
 
     res.json({
       success: true,
-      message: '用户信息更新成功'
+      message: '用户信息更新成功',
     });
   } catch (error) {
     console.error('更新用户信息失败:', error);
     res.status(500).json({
       success: false,
-      message: '更新用户信息失败'
+      message: '更新用户信息失败',
     });
   }
 });
@@ -153,20 +153,20 @@ router.patch('/:id', [
  */
 router.get('/stats/summary', [
   AuthMiddleware.authenticate,
-  AuthMiddleware.requireAdmin
+  AuthMiddleware.requireAdmin,
 ], async (req: Request, res: Response) => {
   try {
     const stats = await UserModel.getStats();
 
     res.json({
       success: true,
-      data: stats
+      data: stats,
     });
   } catch (error) {
     console.error('获取统计信息失败:', error);
     res.status(500).json({
       success: false,
-      message: '获取统计信息失败'
+      message: '获取统计信息失败',
     });
   }
 });
