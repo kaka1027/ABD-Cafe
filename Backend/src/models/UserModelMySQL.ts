@@ -18,7 +18,7 @@ class UserModelMySQL {
     try {
       // 检查是否已有用户
       const [rows] = await pool.query<RowDataPacket[]>(
-        'SELECT COUNT(*) as count FROM users',
+        'SELECT COUNT(*) as count FROM users'
       );
 
       if (rows[0].count > 0) {
@@ -33,22 +33,22 @@ class UserModelMySQL {
           email: 'admin@abdcafe.com',
           password: 'admin123',
           role: UserRole.ADMIN,
-          remainingQuota: 1000.00,
+          remainingQuota: 1000.00
         },
         {
-          username: 'user1',
+          username: 'q',
           email: 'user1@abdcafe.com',
           password: 'user123',
           role: UserRole.USER,
-          remainingQuota: 85.50,
+          remainingQuota: 85.50
         },
         {
           username: 'test',
           email: 'test@abdcafe.com',
           password: '123456',
           role: UserRole.USER,
-          remainingQuota: 50.00,
-        },
+          remainingQuota: 50.00
+        }
       ];
 
       for (const userData of defaultUsers) {
@@ -75,7 +75,7 @@ class UserModelMySQL {
       // 检查用户名是否已存在
       const [existingUsers] = await pool.query<RowDataPacket[]>(
         'SELECT id FROM users WHERE username = ?',
-        [userData.username],
+        [userData.username]
       );
 
       if (existingUsers.length > 0) {
@@ -85,7 +85,7 @@ class UserModelMySQL {
       // 检查邮箱是否已存在
       const [existingEmails] = await pool.query<RowDataPacket[]>(
         'SELECT id FROM users WHERE email = ?',
-        [userData.email],
+        [userData.email]
       );
 
       if (existingEmails.length > 0) {
@@ -110,14 +110,14 @@ class UserModelMySQL {
           userData.role || UserRole.USER,
           avatar,
           userData.remainingQuota || 100.00,
-          true,
-        ],
+          true
+        ]
       );
 
       // 查询新创建的用户
       const [newUsers] = await pool.query<RowDataPacket[]>(
         'SELECT * FROM users WHERE id = ?',
-        [result.insertId],
+        [result.insertId]
       );
 
       return this.toUserResponse(newUsers[0] as User);
@@ -136,7 +136,7 @@ class UserModelMySQL {
     try {
       const [rows] = await pool.query<RowDataPacket[]>(
         'SELECT * FROM users WHERE username = ? AND is_active = TRUE',
-        [username],
+        [username]
       );
 
       if (rows.length === 0) {
@@ -159,7 +159,7 @@ class UserModelMySQL {
     try {
       const [rows] = await pool.query<RowDataPacket[]>(
         'SELECT * FROM users WHERE id = ? AND is_active = TRUE',
-        [id],
+        [id]
       );
 
       if (rows.length === 0) {
@@ -191,7 +191,7 @@ class UserModelMySQL {
     try {
       await pool.query(
         'UPDATE users SET last_login_at = NOW(), updated_at = NOW() WHERE id = ?',
-        [userId],
+        [userId]
       );
     } catch (error) {
       console.error('更新登录时间失败:', error);
@@ -207,7 +207,7 @@ class UserModelMySQL {
     try {
       await pool.query(
         'UPDATE users SET remaining_quota = ?, updated_at = NOW() WHERE id = ?',
-        [amount, userId],
+        [amount, userId]
       );
     } catch (error) {
       console.error('更新用户额度失败:', error);
@@ -222,7 +222,7 @@ class UserModelMySQL {
   async getAllUsers(): Promise<UserResponse[]> {
     try {
       const [rows] = await pool.query<RowDataPacket[]>(
-        'SELECT * FROM users WHERE is_active = TRUE ORDER BY created_at DESC',
+        'SELECT * FROM users WHERE is_active = TRUE ORDER BY created_at DESC'
       );
 
       return rows.map(row => this.toUserResponse(this.rowToUser(row)));
@@ -239,23 +239,23 @@ class UserModelMySQL {
   async getStats() {
     try {
       const [total] = await pool.query<RowDataPacket[]>(
-        'SELECT COUNT(*) as count FROM users',
+        'SELECT COUNT(*) as count FROM users'
       );
       const [active] = await pool.query<RowDataPacket[]>(
-        'SELECT COUNT(*) as count FROM users WHERE is_active = TRUE',
+        'SELECT COUNT(*) as count FROM users WHERE is_active = TRUE'
       );
       const [admins] = await pool.query<RowDataPacket[]>(
-        'SELECT COUNT(*) as count FROM users WHERE role = "admin"',
+        'SELECT COUNT(*) as count FROM users WHERE role = "admin"'
       );
       const [regular] = await pool.query<RowDataPacket[]>(
-        'SELECT COUNT(*) as count FROM users WHERE role = "user"',
+        'SELECT COUNT(*) as count FROM users WHERE role = "user"'
       );
 
       return {
         totalUsers: total[0].count,
         activeUsers: active[0].count,
         adminUsers: admins[0].count,
-        regularUsers: regular[0].count,
+        regularUsers: regular[0].count
       };
     } catch (error) {
       console.error('获取用户统计失败:', error);
@@ -263,7 +263,7 @@ class UserModelMySQL {
         totalUsers: 0,
         activeUsers: 0,
         adminUsers: 0,
-        regularUsers: 0,
+        regularUsers: 0
       };
     }
   }
@@ -283,7 +283,7 @@ class UserModelMySQL {
       createdAt: row.created_at,
       updatedAt: row.updated_at,
       lastLoginAt: row.last_login_at,
-      isActive: Boolean(row.is_active),
+      isActive: Boolean(row.is_active)
     };
   }
 
